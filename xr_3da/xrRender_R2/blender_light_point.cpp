@@ -28,17 +28,14 @@ void CBlender_accum_point::Compile(CBlender_Compile& C)
 		break;
 	case SE_L_UNSHADOWED: // unshadowed
 		C.r_Pass("accum_volume", "accum_omni_unshadowed", false, FALSE, FALSE, blend, D3DBLEND_ONE, dest);
-		C.r_Sampler_rtf("s_position", r2_RT_P);
-		C.r_Sampler_rtf("s_normal", r2_RT_N);
 		C.r_Sampler_clw("s_material", r2_material);
 		C.r_Sampler_clf("s_lmap", *C.L_textures[0]);
 		C.r_Sampler_rtf("s_accumulator", r2_RT_accum);
+		gbuffer(C);
 		C.r_End();
 		break;
 	case SE_L_NORMAL: // normal
 		C.r_Pass("accum_volume", "accum_omni_normal", false, FALSE, FALSE, blend, D3DBLEND_ONE, dest);
-		C.r_Sampler_rtf("s_position", r2_RT_P);
-		C.r_Sampler_rtf("s_normal", r2_RT_N);
 		C.r_Sampler_clw("s_material", r2_material);
 		C.r_Sampler("s_lmap", C.L_textures[0]);
 		if (b_HW_smap)
@@ -50,14 +47,13 @@ void CBlender_accum_point::Compile(CBlender_Compile& C)
 		}
 		else
 			C.r_Sampler_rtf("s_smap", r2_RT_smap_surf);
+		gbuffer(C);
 		jitter(C);
 		C.r_Sampler_rtf("s_accumulator", r2_RT_accum);
 		C.r_End();
 		break;
 	case SE_L_FULLSIZE: // normal-fullsize
 		C.r_Pass("accum_volume", "accum_omni_normal", false, FALSE, FALSE, blend, D3DBLEND_ONE, dest);
-		C.r_Sampler_rtf("s_position", r2_RT_P);
-		C.r_Sampler_rtf("s_normal", r2_RT_N);
 		C.r_Sampler_clw("s_material", r2_material);
 		C.r_Sampler("s_lmap", C.L_textures[0]);
 		if (b_HW_smap)
@@ -69,14 +65,13 @@ void CBlender_accum_point::Compile(CBlender_Compile& C)
 		}
 		else
 			C.r_Sampler_rtf("s_smap", r2_RT_smap_surf);
+		gbuffer(C);
 		jitter(C);
 		C.r_Sampler_rtf("s_accumulator", r2_RT_accum);
 		C.r_End();
 		break;
 	case SE_L_TRANSLUENT: // shadowed + transluency
 		C.r_Pass("accum_volume", "accum_omni_transluent", false, FALSE, FALSE, blend, D3DBLEND_ONE, dest);
-		C.r_Sampler_rtf("s_position", r2_RT_P);
-		C.r_Sampler_rtf("s_normal", r2_RT_N);
 		C.r_Sampler_clw("s_material", r2_material);
 		C.r_Sampler_clf("s_lmap", r2_RT_smap_surf); // diff here
 		if (b_HW_smap)
@@ -90,6 +85,7 @@ void CBlender_accum_point::Compile(CBlender_Compile& C)
 			C.r_Sampler_rtf("s_smap", r2_RT_smap_surf);
 		jitter(C);
 		C.r_Sampler_rtf("s_accumulator", r2_RT_accum);
+		gbuffer(C);
 		C.r_End();
 		break;
 	}

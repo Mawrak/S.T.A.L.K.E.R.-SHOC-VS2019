@@ -36,3 +36,10 @@ IC void jitter(CBlender_Compile& C)
 	C.r_Sampler("jitter2", JITTER(2), true, D3DTADDRESS_WRAP, D3DTEXF_POINT, D3DTEXF_NONE, D3DTEXF_POINT);
 	C.r_Sampler("jitter3", JITTER(3), true, D3DTADDRESS_WRAP, D3DTEXF_POINT, D3DTEXF_NONE, D3DTEXF_POINT);
 }
+
+IC void gbuffer(CBlender_Compile& C)
+{
+	C.r_Sampler_rtf("s_position", r2_RT_P);
+	C.r_Sampler_rtf("s_normal", r2_RT_N);
+	C.r_Sampler_rtf("s_diffuse", r2_RT_albedo);
+}
