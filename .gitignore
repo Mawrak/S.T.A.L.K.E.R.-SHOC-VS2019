@@ -7,3 +7,8 @@ src/.vs/XR_3DA/v16/.suo
 *.log
 *.ipch
 .vs/XR_3DA/v16/.suo
+_appdata_
+intermediate
+libraries
+bin
+gamedata.*
