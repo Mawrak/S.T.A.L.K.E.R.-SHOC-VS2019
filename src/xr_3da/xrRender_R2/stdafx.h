@@ -39,7 +39,7 @@ IC void jitter(CBlender_Compile& C)
 
 IC void gbuffer(CBlender_Compile& C)
 {
-	C.r_Sampler_rtf("s_position", r2_RT_P);
-	C.r_Sampler_rtf("s_normal", r2_RT_N);
-	C.r_Sampler_rtf("s_diffuse", r2_RT_albedo);
+	C.r_Sampler_rtf("s_gbuffer_1", r2_RT_GBuffer_1);
+	C.r_Sampler_rtf("s_gbuffer_2", r2_RT_GBuffer_2);
+	C.r_Sampler_rtf("s_zbuffer", r2_RT_zbuffer);
 }

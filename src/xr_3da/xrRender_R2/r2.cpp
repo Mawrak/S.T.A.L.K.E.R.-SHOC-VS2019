@@ -78,6 +78,17 @@ static class cl_parallax : public R_constant_setup
 	}
 } binder_parallax;
 
+static class cl_pos_decompress_params : public R_constant_setup
+{
+	virtual void setup(R_constant* C)
+	{
+		float VertTan = -1.0f * tanf(deg2rad(Device.fFOV / 2.0f));
+		float HorzTan = -VertTan / Device.fASPECT;
+		RCache.set_c(C, HorzTan, VertTan, (2.0f * HorzTan) / (float)Device.dwWidth,
+					 (2.0f * VertTan) / (float)Device.dwHeight);
+	}
+} binder_pos_decompress_params;
+
 extern ENGINE_API BOOL r2_sun_static;
 //////////////////////////////////////////////////////////////////////////
 // Just two static storage
@@ -247,6 +258,7 @@ void CRender::create()
 
 	// constants
 	::Device.Resources->RegisterConstantSetup("parallax", &binder_parallax);
+	::Device.Resources->RegisterConstantSetup("pos_decompression_params", &binder_pos_decompress_params);
 
 	c_lmaterial = "L_material";
 	c_sbase = "s_base";

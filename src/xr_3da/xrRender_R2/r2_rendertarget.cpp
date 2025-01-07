@@ -221,34 +221,10 @@ CRenderTarget::CRenderTarget()
 	//	NORMAL
 	{
 		u32 w = Device.dwWidth, h = Device.dwHeight;
-		rt_Position.create(r2_RT_P, w, h, D3DFMT_A16B16G16R16F);
-		rt_Normal.create(r2_RT_N, w, h, D3DFMT_A16B16G16R16F);
-
-		// select albedo & accum
-		if (RImplementation.o.mrtmixdepth)
-		{
-			// NV50
-			rt_Color.create(r2_RT_albedo, w, h, D3DFMT_A8R8G8B8);
-			rt_Accumulator.create(r2_RT_accum, w, h, D3DFMT_A16B16G16R16F);
-		}
-		else
-		{
-			// can't - mix-depth
-			if (RImplementation.o.fp16_blend)
-			{
-				// NV40
-				rt_Color.create(r2_RT_albedo, w, h, D3DFMT_A16B16G16R16F); // expand to full
-				rt_Accumulator.create(r2_RT_accum, w, h, D3DFMT_A16B16G16R16F);
-			}
-			else
-			{
-				// R4xx, no-fp-blend,-> albedo_wo
-				VERIFY(RImplementation.o.albedo_wo);
-				rt_Color.create(r2_RT_albedo, w, h, D3DFMT_A8R8G8B8); // normal
-				rt_Accumulator.create(r2_RT_accum, w, h, D3DFMT_A16B16G16R16F);
-				rt_Accumulator_temp.create(r2_RT_accum_temp, w, h, D3DFMT_A16B16G16R16F);
-			}
-		}
+		rt_ZBuffer.create(r2_RT_zbuffer, w, h, D3DFMT_R16F);
+		rt_GBuffer_1.create(r2_RT_GBuffer_1, w, h, D3DFMT_A8R8G8B8); 
+		rt_GBuffer_2.create(r2_RT_GBuffer_2, w, h, D3DFMT_A8R8G8B8);
+		rt_Accumulator.create(r2_RT_accum, w, h, D3DFMT_A16B16G16R16F);
 
 		// generic(LDR) RTs
 		rt_Generic_0.create(r2_RT_generic0, w, h, D3DFMT_A8R8G8B8);

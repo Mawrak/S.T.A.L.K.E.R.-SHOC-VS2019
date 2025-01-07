@@ -1,0 +1,24 @@
+#include "common.h"
+#include "lmodel.h"
+#include "gbuffer.h"
+//////////////////////////////////////////////////////////////////////////////////////////
+// Pixel
+// Note: this is a half-sphere
+uniform half3		direction;
+half4 	main		( float4 tc:TEXCOORD0 )	: COLOR
+{
+  //float4 _P		= tex2Dproj 	(s_position, 	tc); 
+  //half4 _N		= tex2Dproj 	(s_normal,   	tc); 
+
+  GBuffer GBuffer = UnpackGBuffer (tc.xy/tc.w);
+
+  half3 	L2P 	= GBuffer.Position - Ldynamic_pos.xyz;                         		// light2point
+  half3 	L2P_N 	= normalize	(L2P); 	                        		// light2point
+  half 		rsqr	= dot		(L2P,L2P);					// distance 2 light (squared)
+  half  	att 	= saturate	(1 - rsqr*Ldynamic_pos.w);			// q-linear attenuate
+  half  	light	= saturate	(dot(-L2P_N,GBuffer.Normal));
+  half 		hemi 	= saturate	(dot(L2P_N, direction));
+
+  // Final color
+	return 	blendp	(half4(Ldynamic_color.xyz * att * light * hemi, 0), tc);
+}

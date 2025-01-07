@@ -38,10 +38,9 @@ class CRenderTarget : public IRender_Target
 #endif
 
 	// MRT-path
-	ref_rt rt_Depth;	// Z-buffer like - initial depth
-	ref_rt rt_Position; // 64bit,	fat	(x,y,z,?)				(eye-space)
-	ref_rt rt_Normal;	// 64bit,	fat	(x,y,z,hemi)			(eye-space)
-	ref_rt rt_Color;	// 64/32bit,fat	(r,g,b,specular-gloss)	(or decompressed MET-8-8-8-8)
+	ref_rt rt_ZBuffer;
+	ref_rt rt_GBuffer_1;
+	ref_rt rt_GBuffer_2;
 
 	//
 	ref_rt rt_Accumulator;		// 64bit		(r,g,b,specular)

@@ -181,7 +181,7 @@ void CRenderTarget::phase_combine()
 
 	// Combine everything + perform AA
 	if (PP_Complex)
-		u_setrt(rt_Color, 0, 0, HW.pBaseZB); // LDR RT
+		u_setrt(rt_GBuffer_1, 0, 0, HW.pBaseZB); // LDR RT
 	else
 		u_setrt(Device.dwWidth, Device.dwHeight, HW.pBaseRT, NULL, NULL, HW.pBaseZB);
 	//. u_setrt				( Device.dwWidth,Device.dwHeight,HW.pBaseRT,NULL,NULL,HW.pBaseZB);
@@ -404,7 +404,7 @@ void CRenderTarget::phase_wallmarks()
 	// Targets
 	RCache.set_RT(NULL, 2);
 	RCache.set_RT(NULL, 1);
-	u_setrt(rt_Color, NULL, NULL, HW.pBaseZB);
+	u_setrt(rt_GBuffer_1, NULL, NULL, HW.pBaseZB);
 	// Stencil	- draw only where stencil >= 0x1
 	RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0x00);
 	RCache.set_CullMode(CULL_CCW);

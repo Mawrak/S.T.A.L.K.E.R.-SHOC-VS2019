@@ -1,0 +1,42 @@
+#include "common.h"
+#include "lmodel.h"
+#include "shadow.h"
+#include "gbuffer.h"
+
+#define SUN_FARPLANE 180.f
+
+float4 	main		( float2 tc : TEXCOORD0, float4 tcJ : TEXCOORD1 ) : COLOR
+{
+  //float4 _P		= tex2D 	(s_position, 	tc);
+  //half4  _N		= tex2D 	(s_normal,   	tc);
+
+  GBuffer GBuffer = UnpackGBuffer (tc.xy);
+
+	// ----- light-model
+	half 	m	= xmaterial	;
+# ifndef USE_R2_STATIC_SUN
+			m 	= GBuffer.MaterialID		;
+# endif
+	half4	light 	= plight_infinity (m, GBuffer.Position, GBuffer.Normal, Ldynamic_dir);
+
+	// ----- shadow
+  	float4 	P4 	= float4	(GBuffer.Position,1);
+	float4 	PS	= mul		(m_shadow, 	P4);
+#ifdef	USE_HWSMAP
+	#ifdef USE_FETCH4
+		half 	s 	= sunmask(P4)*sample_hw_f4	(PS, float4(0,0,0,0) );
+	#else
+		half 	s 	= sunmask(P4)*sample_hw_pcf	(PS, float4(0,0,0,0) );
+	#endif
+#else
+	half 	s 	= sunmask(P4)*sample_sw	(PS.xy / PS.w, float2(0,0), PS.z);
+#endif
+
+
+#ifdef 	SUN_FARPLANE
+	float f		= saturate	(GBuffer.Position.z/SUN_FARPLANE);
+	s			= lerp		(s, 0.333h, f*f);
+#endif
+
+	return 		blend		(Ldynamic_color * light * s, tc);
+}

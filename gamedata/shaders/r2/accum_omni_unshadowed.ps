@@ -1,0 +1,23 @@
+#include "common.h"
+#include "lmodel.h"
+#include "gbuffer.h"
+
+half4 	main		( float4 tc:TEXCOORD0 )	: COLOR
+{
+  const half bias_mul 	= 0.999f;
+
+  GBuffer GBuffer = UnpackGBuffer (tc.xy/tc.w);
+
+  // Sample the fat framebuffer:
+  //half4 _P		= tex2Dproj 	(s_position, tc); 
+  //half4 _N		= tex2Dproj 	(s_normal,   tc); 
+
+	half 	m	= xmaterial	;
+# ifndef USE_R2_STATIC_SUN
+			m 	= GBuffer.MaterialID		;
+# endif
+
+  half	rsqr;
+  half4	light 		= plight_local 	(m, GBuffer.Position, GBuffer.Normal, Ldynamic_pos, Ldynamic_pos.w, rsqr);
+	return 	blendp	(Ldynamic_color * light, tc);
+}

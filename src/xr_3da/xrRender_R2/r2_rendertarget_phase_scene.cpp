@@ -11,17 +11,12 @@ void CRenderTarget::phase_scene_prepare()
 // begin
 void CRenderTarget::phase_scene_begin()
 {
-	// Targets, use accumulator for temporary storage
-	if (RImplementation.o.albedo_wo)
-		u_setrt(rt_Position, rt_Normal, rt_Accumulator, HW.pBaseZB);
-	else
-		u_setrt(rt_Position, rt_Normal, rt_Color, HW.pBaseZB);
+	u_setrt(rt_GBuffer_1, rt_GBuffer_2, rt_ZBuffer, HW.pBaseZB);
 
 	// Stencil - write 0x1 at pixel pos
-	RCache.set_Stencil(TRUE, D3DCMP_ALWAYS, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE,
-					   D3DSTENCILOP_KEEP);
+	RCache.set_Stencil(TRUE, D3DCMP_ALWAYS, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
 
-	// Misc		- draw only front-faces
+	// Misc	- draw only front-faces
 	CHK_DX(HW.pDevice->SetRenderState(D3DRS_TWOSIDEDSTENCILMODE, FALSE));
 	RCache.set_CullMode(CULL_CCW);
 	RCache.set_ColorWriteEnable();
@@ -48,7 +43,7 @@ void CRenderTarget::phase_scene_end()
 		return;
 
 	// transfer from "rt_Accumulator" into "rt_Color"
-	u_setrt(rt_Color, 0, 0, HW.pBaseZB);
+	u_setrt(rt_GBuffer_1, 0, 0, HW.pBaseZB);
 	RCache.set_CullMode(CULL_NONE);
 	RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0x00); // stencil should be >= 1
 	if (RImplementation.o.nvstencil)

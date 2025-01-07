@@ -1,0 +1,10 @@
+#include "common.h"
+#include "gbuffer.h"
+
+half4 	main		( p_screen I )	: COLOR
+{
+  // Sample the fat framebuffer:
+  half3 NH		= UnpackNormal(I.tc0); 
+  half	L 		= dot	(Ldynamic_dir, (half3)NH);
+  return  		half4			(L,L,L,L);
+}
