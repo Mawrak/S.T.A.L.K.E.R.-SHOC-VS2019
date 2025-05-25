@@ -92,8 +92,8 @@ GBufferPacked PackGBuffer(GBuffer Input)
     	GBufferPacked GBuffer;
 
     	GBuffer.rt_GBuffer_1 = float4(Input.Albedo, Input.Glossiness);
-    	GBuffer.rt_GBuffer_2 = float4(PackNormal(Input.Normal), Input.MaterialID, Input.AO);
-    	GBuffer.rt_ZBuffer = float4(PackPosition(Input.Position), 0, 0, 0);
+    	GBuffer.rt_GBuffer_2 = float4(PackNormal(Input.Normal), PackPosition(Input.Position), Input.AO);
+    	GBuffer.rt_ZBuffer = float4(0, 0, 0, 0);
 
     	return GBuffer;
 }
@@ -104,14 +104,14 @@ GBuffer UnpackGBuffer(float2 TexCoords)
 
     	float4 GBuffer_1 = tex2D(s_gbuffer_1, TexCoords);
     	float4 GBuffer_2 = tex2D(s_gbuffer_2, TexCoords);
-	float ZBuffer = tex2D(s_zbuffer, TexCoords).r;
+	//float ZBuffer = tex2D(s_zbuffer, TexCoords).r;
 
     	GBuffer.Albedo = GBuffer_1.rgb;
     	GBuffer.Glossiness = GBuffer_1.a;
     	GBuffer.Normal = UnpackNormal(GBuffer_2.rg);
-	GBuffer.MaterialID = GBuffer_2.b;
+	GBuffer.MaterialID = 0.0f;//GBuffer_2.b;
     	GBuffer.AO = GBuffer_2.a;
-    	GBuffer.Position = UnpackPosition(CheckDepth(ZBuffer), TexCoords);
+    	GBuffer.Position = UnpackPosition(CheckDepth(GBuffer_2.b), TexCoords);
 
     	return GBuffer;
 }

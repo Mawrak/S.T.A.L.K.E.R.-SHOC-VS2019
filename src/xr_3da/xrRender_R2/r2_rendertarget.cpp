@@ -221,10 +221,10 @@ CRenderTarget::CRenderTarget()
 	//	NORMAL
 	{
 		u32 w = Device.dwWidth, h = Device.dwHeight;
-		rt_ZBuffer.create(r2_RT_zbuffer, w, h, D3DFMT_R16F);
+		//rt_ZBuffer.create(r2_RT_zbuffer, w, h, D3DFMT_R16F);
 		rt_GBuffer_1.create(r2_RT_GBuffer_1, w, h, D3DFMT_A8R8G8B8); 
-		rt_GBuffer_2.create(r2_RT_GBuffer_2, w, h, D3DFMT_A8R8G8B8);
-		rt_Accumulator.create(r2_RT_accum, w, h, D3DFMT_A16B16G16R16F);
+		rt_GBuffer_2.create(r2_RT_GBuffer_2, w, h, D3DFMT_A16B16G16R16F);
+		rt_Accumulator.create(r2_RT_accum, w, h, D3DFMT_A8R8G8B8);
 
 		// generic(LDR) RTs
 		rt_Generic_0.create(r2_RT_generic0, w, h, D3DFMT_A8R8G8B8);
