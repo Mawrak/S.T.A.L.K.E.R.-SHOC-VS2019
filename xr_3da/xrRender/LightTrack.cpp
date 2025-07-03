@@ -164,8 +164,21 @@ void CROS_impl::update(IRenderable* O)
 	for (int it = 0; it < result_count; it++)
 		if (result[it])
 			_pass++;
+        
 	hemi_value = float(_pass) / float(result_count ? result_count : 1);
 	hemi_value *= ps_r2_dhemi_scale;
+    if (hemi_value == 0)
+    {hemi_value = hemi_value+0.1;}
+    
+    
+    if (MODE & IRender_ObjectSpecific::TRACE_SUN) {
+    sun_value = 1.0f; // Force full sun
+    }
+    //if (MODE & IRender_ObjectSpecific::TRACE_HEMI) {
+    //    hemi_value = 1.0f; // Force full hemi
+    //}
+    
+    
 	if (bFirstTime)
 		hemi_smooth = hemi_value;
 	update_smooth();
