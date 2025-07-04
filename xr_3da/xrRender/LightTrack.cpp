@@ -171,9 +171,9 @@ void CROS_impl::update(IRenderable* O)
     {hemi_value = hemi_value+0.1;}
     
     
-    if (MODE & IRender_ObjectSpecific::TRACE_SUN) {
-    sun_value = 1.0f; // Force full sun
-    }
+    //if (MODE & IRender_ObjectSpecific::TRACE_SUN) {
+    //sun_value = 1.0f; // Force full sun
+    //}
     //if (MODE & IRender_ObjectSpecific::TRACE_HEMI) {
     //    hemi_value = 1.0f; // Force full hemi
     //}

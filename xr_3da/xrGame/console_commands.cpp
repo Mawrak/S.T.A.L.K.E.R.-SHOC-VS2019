@@ -338,7 +338,7 @@ class CCC_ALifeSwitchFactor : public IConsole_Command
 	}
 };
 
-#ifndef MASTER_GOLD
+//#ifndef MASTER_GOLD
 class CCC_TimeFactor : public IConsole_Command
 {
   public:
@@ -352,7 +352,7 @@ class CCC_TimeFactor : public IConsole_Command
 		Device.time_factor(time_factor);
 	}
 };
-#endif // MASTER_GOLD
+//#endif // MASTER_GOLD
 
 //-----------------------------------------------------------------------
 class CCC_DemoRecord : public IConsole_Command
@@ -690,7 +690,7 @@ class CCC_Net_CL_InputUpdateRate : public CCC_Integer
 	}
 };
 
-#ifndef MASTER_GOLD
+//#ifndef MASTER_GOLD
 class CCC_Script : public IConsole_Command
 {
   public:
@@ -757,7 +757,7 @@ class CCC_ScriptCommand : public IConsole_Command
 		}
 	}
 };
-#endif // MASTER_GOLD
+//#endif // MASTER_GOLD
 
 #ifdef DEBUG
 
@@ -1131,7 +1131,7 @@ struct CCC_ClearSmartCastStats : public IConsole_Command
 };
 #endif
 
-#ifndef MASTER_GOLD
+//#ifndef MASTER_GOLD
 #include "game_graph.h"
 struct CCC_JumpToLevel : public IConsole_Command
 {
@@ -1158,7 +1158,7 @@ struct CCC_JumpToLevel : public IConsole_Command
 		Msg("! There is no level \"%s\" in the game graph!", level);
 	}
 };
-#endif // MASTER_GOLD
+//#endif // MASTER_GOLD
 
 #include "GamePersistent.h"
 
@@ -1673,14 +1673,14 @@ void CCC_RegisterCommands()
 	CMD4(CCC_FloatBlock, "ph_tri_query_ex_aabb_rate", &ph_tri_query_ex_aabb_rate, 1.01f, 3.f);
 #endif // DEBUG
 
-#ifndef MASTER_GOLD
+//#ifndef MASTER_GOLD
 	CMD1(CCC_JumpToLevel, "jump_to_level");
 	CMD3(CCC_Mask, "g_god", &psActorFlags, AF_GODMODE);
 	CMD3(CCC_Mask, "g_unlimitedammo", &psActorFlags, AF_UNLIMITEDAMMO);
 	CMD1(CCC_Script, "run_script");
 	CMD1(CCC_ScriptCommand, "run_string");
 	CMD1(CCC_TimeFactor, "time_factor");
-#endif // MASTER_GOLD
+//#endif // MASTER_GOLD
 
 	CMD3(CCC_Mask, "g_autopickup", &psActorFlags, AF_AUTOPICKUP);
 
@@ -1753,10 +1753,10 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask, "cl_dynamiccrosshair", &psHUD_Flags, HUD_CROSSHAIR_DYNAMIC);
 	CMD1(CCC_MainMenu, "main_menu");
 
-#ifndef MASTER_GOLD
+//#ifndef MASTER_GOLD
 	CMD1(CCC_StartTimeSingle, "start_time_single");
 	CMD4(CCC_TimeFactorSingle, "time_factor_single", &g_fTimeFactor, 0.f, flt_max);
-#endif // MASTER_GOLD
+//#endif // MASTER_GOLD
 
 	g_uCommonFlags.zero();
 	g_uCommonFlags.set(flAiUseTorchDynamicLights, TRUE);

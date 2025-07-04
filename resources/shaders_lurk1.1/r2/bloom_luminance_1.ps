@@ -1,0 +1,26 @@
+#include "common.h"
+struct 	v2p
+{
+float4 tc0: 	TEXCOORD0;
+float4 tc1: 	TEXCOORD1;
+float4 tc2: 	TEXCOORD2;
+float4 tc3: 	TEXCOORD3;
+float4 tc4: 	TEXCOORD4;
+float4 tc5: 	TEXCOORD5;
+float4 tc6: 	TEXCOORD6;
+float4 tc7: 	TEXCOORD7;
+};
+#define	LUMINANCE_BASE		0.0001h
+half	luminance	(float2	tc)	{
+half3	source 	= tex2D(s_image,tc);
+return 	dot	(source, LUMINANCE_VECTOR*def_hdr );
+}
+half4 	main	( v2p I )	: COLOR
+{
+half4 	final;
+final.x =	luminance(I.tc0);
+final.y = 	luminance(I.tc1);
+final.z = 	luminance(I.tc2);
+final.w =	luminance(I.tc3);
+return 		final	;
+}
