@@ -6,6 +6,9 @@
 #include "LightTrack.h"
 #include "..\xr_object.h"
 
+#include <cmath>
+#include <stdexcept>
+
 #ifdef _EDITOR
 #include "igame_persistent.h"
 #include "environment.h"
@@ -167,9 +170,13 @@ void CROS_impl::update(IRenderable* O)
         
 	hemi_value = float(_pass) / float(result_count ? result_count : 1);
 	hemi_value *= ps_r2_dhemi_scale;
+    
+    #if RENDER == R_R2
+        
     if (hemi_value == 0)
     {hemi_value = hemi_value+0.1;}
     
+    #endif
     
     //if (MODE & IRender_ObjectSpecific::TRACE_SUN) {
     //sun_value = 1.0f; // Force full sun
