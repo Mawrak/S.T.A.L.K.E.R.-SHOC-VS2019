@@ -39,7 +39,7 @@ int ps_r__tf_Anisotropic = 4;
 float ps_r1_ssaLOD_A = 64.f;
 float ps_r1_ssaLOD_B = 48.f;
 float ps_r1_tf_Mipbias = 0.0f;
-Flags32 ps_r1_flags = {R1FLAG_DLIGHTS}; // r1-only
+Flags32 ps_r1_flags					= { R1FLAG_DLIGHTS | R1FLAG_TERRAIN_MASK };		// r1-only
 float ps_r1_lmodel_lerp = 0.1f;
 float ps_r1_dlights_clip = 30.f;
 float ps_r1_pps_u = 0.f;
@@ -47,6 +47,7 @@ float ps_r1_pps_v = 0.f;
 
 // R1-specific
 int ps_r1_GlowsPerFrame = 16; // r1-only
+int ps_r1_use_terrain_mask = 1;
 
 // R2
 float ps_r2_ssaLOD_A = 48.f;
@@ -325,6 +326,7 @@ void xrRender_initconsole()
 
 	// R1-specific
 	CMD4(CCC_Integer, "r1_glows_per_frame", &ps_r1_GlowsPerFrame, 2, 32);
+    CMD3(CCC_Mask, "r1_use_terrain_mask", &ps_r1_flags, R1FLAG_TERRAIN_MASK);
 
 	// R2
 	CMD4(CCC_Float, "r2_ssa_lod_a", &ps_r2_ssaLOD_A, 16, 96);

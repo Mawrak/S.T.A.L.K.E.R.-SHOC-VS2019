@@ -158,6 +158,9 @@ void CSoundRender_Source::load(LPCSTR name)
 		FS.update_path(fn, "$game_sounds$", "$no_sound.ogg");
 	}
 #endif
+
+
+
 	LoadWave(fn); //.R_ASSERT(wave);
 	SoundRender->cache.cat_create(CAT, dwBytesTotal);
 

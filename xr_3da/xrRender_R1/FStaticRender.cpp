@@ -42,7 +42,7 @@ ShaderElement* CRender::rimp_select_sh_static(IRender_Visual* pVisual, float cdi
 	switch (phase)
 	{
 	case PHASE_NORMAL:
-		return (((_sqrt(cdist_sq) - pVisual->vis.sphere.R) < 44) ? pVisual->shader->E[SE_R1_NORMAL_HQ]
+		return (((_sqrt(cdist_sq) - pVisual->vis.sphere.R) < 200) ? pVisual->shader->E[SE_R1_NORMAL_HQ]
 																 : pVisual->shader->E[SE_R1_NORMAL_LQ])
 			._get();
 	case PHASE_POINT:
