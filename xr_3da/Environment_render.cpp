@@ -200,14 +200,11 @@ void CEnvironment::OnDeviceCreate()
 	clouds_geom.create(v_clouds_fvf, RCache.Vertex.Buffer(), RCache.Index.Buffer());
 
 	// weathers
-	{
-		EnvsMapIt _I, _E;
-		_I = WeatherCycles.begin();
-		_E = WeatherCycles.end();
-		for (; _I != _E; _I++)
-			for (EnvIt it = _I->second.begin(); it != _I->second.end(); it++)
-				(*it)->on_device_create();
-	}
+	// ONLY load current descriptors (not all!)
+    if (Current[0]) 
+        Current[0]->on_device_create();
+    if (Current[1]) 
+        Current[1]->on_device_create();
 	// effects
 	{
 		EnvsMapIt _I, _E;

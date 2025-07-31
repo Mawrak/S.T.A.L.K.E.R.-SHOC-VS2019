@@ -95,6 +95,7 @@ void CEnvAmbient::load(const shared_str& sect)
 //-----------------------------------------------------------------------------
 CEnvDescriptor::CEnvDescriptor()
 {
+    textures_loaded = false;
 	exec_time = 0.0f;
 	exec_time_loaded = 0.0f;
 
@@ -191,7 +192,7 @@ void CEnvDescriptor::load(LPCSTR exec_tm, LPCSTR S, CEnvironment* parent)
 	//	C_CHECK					(lmap_color	);
 	C_CHECK(hemi_color);
 	C_CHECK(sun_color);
-	on_device_create();
+	//on_device_create();
 }
 
 void CEnvDescriptor::on_device_create()

@@ -114,6 +114,12 @@ class ENGINE_API CEnvAmbient
 class ENGINE_API CEnvDescriptor
 {
   public:
+  
+    bool textures_loaded; // Add this flag
+
+    
+  
+  
 	float exec_time;
 	float exec_time_loaded;
 

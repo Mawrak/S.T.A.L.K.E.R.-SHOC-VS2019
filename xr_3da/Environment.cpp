@@ -374,6 +374,19 @@ void CEnvironment::OnFrame()
 
 	SelectEnvs(fGameTime);
 	VERIFY(Current[0] && Current[1]);
+    
+    
+    
+    // Ensure textures are loaded ONLY for active descriptors
+    if (Current[0] && !Current[0]->textures_loaded) {
+        Current[0]->on_device_create();
+        Current[0]->textures_loaded = true;
+    }
+    if (Current[1] && !Current[1]->textures_loaded) {
+        Current[1]->on_device_create();
+        Current[1]->textures_loaded = true;
+    }
+    
 
 	float current_weight = TimeWeight(fGameTime, Current[0]->exec_time, Current[1]->exec_time);
 
@@ -421,7 +434,14 @@ void CEnvironment::OnFrame()
 			CurrentEnv.clouds_r_textures.push_back(mk_pair(2, tonemap));  //. hack
 		}
 	}
-
+    
+    
+    
+    
+    
+    
+    
+    
 	//. Setup skybox textures, somewhat ugly
 	IDirect3DBaseTexture9* e0 = CurrentEnv.sky_r_textures[0].second->surface_get();
 	IDirect3DBaseTexture9* e1 = CurrentEnv.sky_r_textures[1].second->surface_get();
