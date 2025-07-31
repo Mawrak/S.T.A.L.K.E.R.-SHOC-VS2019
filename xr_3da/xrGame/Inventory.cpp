@@ -160,7 +160,7 @@ void CInventory::Take(CGameObject* pObj, bool bNotActivate, bool strict_placemen
 
 		break;
 	default:
-		if (CanPutInSlot(pIItem))
+		if (!pIItem->RuckDefault() && CanPutInSlot(pIItem))
 		{
 			result = Slot(pIItem, bNotActivate);
 			VERIFY(result);
