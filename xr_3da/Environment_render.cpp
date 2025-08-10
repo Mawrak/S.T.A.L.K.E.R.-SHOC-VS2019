@@ -205,15 +205,7 @@ void CEnvironment::OnDeviceCreate()
         Current[0]->on_device_create();
     if (Current[1]) 
         Current[1]->on_device_create();
-	// effects
-	{
-		EnvsMapIt _I, _E;
-		_I = WeatherFXs.begin();
-		_E = WeatherFXs.end();
-		for (; _I != _E; _I++)
-			for (EnvIt it = _I->second.begin(); it != _I->second.end(); it++)
-				(*it)->on_device_create();
-	}
+	
 
 	Invalidate();
 	OnFrame();
@@ -246,6 +238,24 @@ void CEnvironment::OnDeviceDestroy()
 			for (EnvIt it = _I->second.begin(); it != _I->second.end(); it++)
 				(*it)->on_device_destroy();
 	}
+	
+	
+	for (auto& cycle : WeatherCycles) {
+        for (auto* descriptor : cycle.second) {
+            if (descriptor->textures_loaded) {
+                descriptor->on_device_destroy();
+            }
+        }
+    }
+    for (auto& fx : WeatherFXs) {
+        for (auto* descriptor : fx.second) {
+            if (descriptor->textures_loaded) {
+                descriptor->on_device_destroy();
+            }
+        }
+    }
+	
+	
 	CurrentEnv.destroy();
 }
 

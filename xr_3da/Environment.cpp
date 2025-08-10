@@ -173,6 +173,17 @@ void CEnvironment::SetWeather(shared_str name, bool forced)
 		FATAL("! Empty weather name");
 #endif
 	}
+	
+	
+	if (Current[0] && !forced) {
+        Current[0]->on_device_destroy();
+        Current[0]->textures_loaded = false;
+    }
+    if (Current[1] && !forced) {
+        Current[1]->on_device_destroy();
+        Current[1]->textures_loaded = false;
+    }
+	
 }
 
 bool CEnvironment::SetWeatherFX(shared_str name)
@@ -296,6 +307,14 @@ void CEnvironment::SelectEnvs(EnvVec* envs, CEnvDescriptor*& e0, CEnvDescriptor*
 
 void CEnvironment::SelectEnvs(float gt)
 {
+	
+	static CEnvDescriptor* prev0 = nullptr;
+    static CEnvDescriptor* prev1 = nullptr;
+    
+    // Keep previous descriptors for unloading
+    if (Current[0]) prev0 = Current[0];
+    if (Current[1]) prev1 = Current[1];
+	
 	VERIFY(CurrentWeather);
 	if ((Current[0] == Current[1]) && (Current[0] == 0))
 	{
@@ -325,6 +344,19 @@ void CEnvironment::SelectEnvs(float gt)
 #endif
 		}
 	}
+	
+	
+	
+	// Unload textures from previous descriptors
+    if (prev0 && prev0 != Current[0] && prev0 != Current[1]) {
+        prev0->on_device_destroy();
+        prev0->textures_loaded = false;
+    }
+    if (prev1 && prev1 != Current[0] && prev1 != Current[1]) {
+        prev1->on_device_destroy();
+        prev1->textures_loaded = false;
+    }
+	
 }
 
 int get_ref_count(IUnknown* ii)

@@ -93,7 +93,7 @@ void CEnvAmbient::load(const shared_str& sect)
 //-----------------------------------------------------------------------------
 // Environment descriptor
 //-----------------------------------------------------------------------------
-CEnvDescriptor::CEnvDescriptor()
+CEnvDescriptor::CEnvDescriptor() : textures_loaded(false)
 {
     textures_loaded = false;
 	exec_time = 0.0f;
@@ -203,6 +203,7 @@ void CEnvDescriptor::on_device_create()
 		sky_texture_env.create(sky_texture_env_name.c_str());
 	if (clouds_texture_name.size())
 		clouds_texture.create(clouds_texture_name.c_str());
+	textures_loaded = true;
 }
 
 void CEnvDescriptor::on_device_destroy()
@@ -210,6 +211,7 @@ void CEnvDescriptor::on_device_destroy()
 	sky_texture.destroy();
 	sky_texture_env.destroy();
 	clouds_texture.destroy();
+	textures_loaded = false;  // Add this
 }
 
 //-----------------------------------------------------------------------------
