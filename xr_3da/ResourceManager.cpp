@@ -296,7 +296,7 @@ void CResourceManager::DeferredUpload()
 		return;
 	for (map_TextureIt t = m_textures.begin(); t != m_textures.end(); t++)
 	{
-		t->second->Load();
+		//t->second->Load();
 	}
 }
 /*
