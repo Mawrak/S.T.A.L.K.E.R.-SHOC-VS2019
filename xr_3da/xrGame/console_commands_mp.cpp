@@ -1063,6 +1063,7 @@ class CCC_SetWeather : public IConsole_Command
 		if (!weather_name[0])
 			return;
 		g_pGamePersistent->Environment().SetWeather(weather_name);
+		g_pGamePersistent->Environment().Invalidate();
 	};
 
 	virtual void Info(TInfo& I)
