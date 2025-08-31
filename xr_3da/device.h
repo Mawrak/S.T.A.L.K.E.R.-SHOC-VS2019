@@ -184,6 +184,8 @@ class ENGINE_API CRenderDevice
 		if (I != seqParallel.end())
 			seqParallel.erase(I);
 	}
+    public:
+    bool IsR2Active(void);
 };
 
 extern ENGINE_API CRenderDevice Device;
