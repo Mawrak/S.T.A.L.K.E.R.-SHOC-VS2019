@@ -95,6 +95,11 @@ class CUIInventoryWnd : public CUIDialogWnd
 	CUIDragDropListEx* m_pUIBagList;
 	CUIDragDropListEx* m_pUIBeltList;
 	CUIDragDropListEx* m_pUIPistolList;
+    
+    CUIDragDropListEx*			m_pUIKnifeList;
+	CUIDragDropListEx*			m_pUIBinocList;
+	CUIDragDropListEx*			m_pUITorchList;
+    
 	CUIDragDropListEx* m_pUIAutomaticList;
 	CUIOutfitDragDropList* m_pUIOutfitList;
 	void ClearAllLists();
