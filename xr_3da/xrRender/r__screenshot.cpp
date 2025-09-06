@@ -41,6 +41,12 @@ void CRender::Screenshot(IRender_interface::ScreenshotMode mode, LPCSTR name)
 	//	Log("~ Can't capture screen while in windowed mode...");
 	//	return;
 	//}
+    
+    //delete old file before creating new one
+    if (name && FS.exist(name)) 
+    {
+	FS.file_delete(0, name);
+	}
 
 	// Create temp-surface
 	IDirect3DSurface9* pFB;
