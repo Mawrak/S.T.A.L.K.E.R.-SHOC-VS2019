@@ -255,6 +255,10 @@ void CRenderDevice::Run()
 				RCache.set_xform_view(mView);
 				RCache.set_xform_project(mProject);
 				D3DXMatrixInverse((D3DXMATRIX*)&mInvFullTransform, 0, (D3DXMATRIX*)&mFullTransform);
+                
+                
+                vCameraPosition_saved = vCameraPosition;
+				mFullTransform_saved = mFullTransform;
 
 				// *** Resume threads
 				// Capture end point - thread must run only ONE cycle
