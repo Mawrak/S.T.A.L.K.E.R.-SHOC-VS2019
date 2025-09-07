@@ -273,7 +273,16 @@ void CEnvDescriptorMixer::lerp(CEnvironment*, CEnvDescriptor& A, CEnvDescriptor&
 	far_plane = (fi * A.far_plane + f * B.far_plane + M.far_plane) * psVisDistance * _power;
 	fog_color.lerp(A.fog_color, B.fog_color, f).add(M.fog_color).mul(_power);
 	fog_density = (fi * A.fog_density + f * B.fog_density + M.fog_density) * _power;
-	fog_distance = (fi * A.fog_distance + f * B.fog_distance);
+    
+    
+    if (psVisDistance < 1)
+	{fog_distance = (fi * A.fog_distance + f * B.fog_distance)* psVisDistance;}
+    else
+    {fog_distance = (fi * A.fog_distance + f * B.fog_distance);}
+
+
+
+
 	fog_near = (1.0f - fog_density) * 0.85f * fog_distance;
 	fog_far = 0.99f * fog_distance;
 	rain_density = fi * A.rain_density + f * B.rain_density;
