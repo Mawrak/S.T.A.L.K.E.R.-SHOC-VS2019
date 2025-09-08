@@ -272,6 +272,8 @@ class CLevel : public IGame_Level, public IPureClient
 	virtual void IR_OnActivate(void);
 
 	int get_RPID(LPCSTR name);
+    
+    collide::rq_result			GetPickResult			(Fvector pos, Fvector dir, float range, CObject* ignore);
 
 	// Game
 	void InitializeClientGame(NET_Packet& P);

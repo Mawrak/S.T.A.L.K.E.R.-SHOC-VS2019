@@ -9,8 +9,10 @@
 #include "level.h"
 #include "script_debugger.h"
 #include "ai_debug.h"
+#include "ai_object_location.h"
 #include "alife_simulator.h"
 #include "game_cl_base.h"
+#include "xrServer_Objects_ALife_Monsters.h"
 #include "game_cl_single.h"
 #include "game_sv_single.h"
 #include "hit.h"
@@ -1527,6 +1529,52 @@ class CCC_Net_SV_GuaranteedPacketMode : public CCC_Integer
 	}
 };
 
+class CCC_Spawn : public IConsole_Command
+{
+public:
+	CCC_Spawn(LPCSTR N) : IConsole_Command(N){};
+
+	virtual void Execute(LPCSTR args)
+	{
+		if (!g_pGameLevel)
+			return;
+		int count = 1;
+		string256 string;
+		string[0] = 1;
+		sscanf(args, "%s", &string);
+
+		if (!pSettings->section_exist(args))
+		{
+			Msg("! Section [%s] isn`t exist...", args);
+			return;
+		}
+		if (!pSettings->line_exist(string, "class"))
+		{
+			Msg("! Failed to load section!", args);
+			return;
+		}
+		collide::rq_result RQ = Level().GetPickResult(Device.vCameraPosition, Device.vCameraDirection, 1000, Level().CurrentControlEntity());
+		if (game_sv_Single* tpGame = smart_cast<game_sv_Single*>(Level().Server->game))
+			for (int i = 0; i < count; ++i)
+			{
+				CSE_Abstract* entity = tpGame->alife().spawn_item(string, Fvector(Device.vCameraPosition).add(Fvector(Device.vCameraDirection).mul(RQ.range)),
+																  Actor()->ai_location().level_vertex_id(), Actor()->ai_location().game_vertex_id(), ALife::_OBJECT_ID(-1));
+				if (CSE_ALifeAnomalousZone* anom = smart_cast<CSE_ALifeAnomalousZone*>(entity))
+				{
+					CShapeData::shape_def _shape;
+					_shape.data.sphere.P.set(0.0f, 0.0f, 0.0f);
+					_shape.data.sphere.R = 3.0f;
+					_shape.type = CShapeData::cfSphere;
+					anom->assign_shapes(&_shape, 1);
+					anom->m_space_restrictor_type = RestrictionSpace::eRestrictorTypeNone;
+				}
+			}
+	}
+
+
+	
+};
+
 void CCC_RegisterCommands()
 {
 	// options
@@ -1681,6 +1729,8 @@ void CCC_RegisterCommands()
 	CMD1(CCC_ScriptCommand, "run_string");
 	CMD1(CCC_TimeFactor, "time_factor");
 //#endif // MASTER_GOLD
+    CMD1(CCC_Spawn,			"g_spawn");
+
 
 	CMD3(CCC_Mask, "g_autopickup", &psActorFlags, AF_AUTOPICKUP);
 
