@@ -14,6 +14,9 @@
 class CUIScrollView;
 class CUIXml;
 
+class CActor;
+class CInventoryOwner;
+
 class CUITalkDialogWnd : public CUIWindow, public CUIWndCallback
 {
   private:
@@ -83,6 +86,10 @@ class CUITalkDialogWnd : public CUIWindow, public CUIWndCallback
 
 	void __stdcall OnTradeClicked(CUIWindow* w, void*);
 	void __stdcall OnQuestionClicked(CUIWindow* w, void*);
+   protected:
+    CActor* m_pActor;
+	CInventoryOwner* pActor;
+	CInventoryOwner* pTalkPartner;
 };
 
 class CUIQuestionItem : public CUIWindow, public CUIWndCallback

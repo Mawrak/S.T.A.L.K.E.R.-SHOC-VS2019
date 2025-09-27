@@ -5,6 +5,8 @@
 #include "UIXmlInit.h"
 #include "UIScrollView.h"
 #include "UI3tButton.h"
+#include "../actor.h"
+#include "../level.h"
 #include "../UI.h"
 
 #define TALK_XML "talk.xml"
@@ -19,6 +21,11 @@ CUITalkDialogWnd::CUITalkDialogWnd() : m_pNameTextFont(NULL)
 
 CUITalkDialogWnd::~CUITalkDialogWnd()
 {
+    m_pActor = NULL;
+
+	pActor = NULL;
+	pTalkPartner = NULL;
+    
 	xr_delete(m_uiXml);
 }
 
@@ -100,6 +107,35 @@ void CUITalkDialogWnd::Show()
 	inherited::Enable(true);
 
 	ResetAll();
+    
+     // Add this code to set the trade button state based on NPC's trade setting
+     
+     
+    m_pActor = smart_cast<CActor*>(Level().CurrentEntity());
+	if (m_pActor && !m_pActor->IsTalking())
+		return;
+     
+    CInventoryOwner* pActor = smart_cast<CInventoryOwner*>(m_pActor);
+    
+        CInventoryOwner* pTalkPartner = pActor->GetTalkPartner();
+        if (pTalkPartner)
+        {
+            // Set trade button state based on NPC's trade enabled status
+            bool bTradeEnabled = pTalkPartner->IsTradeEnabled();
+            UIToTradeButton.Enable(bTradeEnabled);
+            
+            // Optional: Visual feedback for disabled state
+            if (!bTradeEnabled)
+            {
+                UIToTradeButton.SetTextColor(color_xrgb(128, 128, 128)); // Grayed out
+            }
+            else
+            {
+                UIToTradeButton.SetTextColor(color_xrgb(238, 153, 26)); // Normal color copied from talk.xml
+            }
+        }
+    
+    
 }
 
 void CUITalkDialogWnd::Hide()
