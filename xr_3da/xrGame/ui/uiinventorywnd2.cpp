@@ -77,35 +77,6 @@ void CUIInventoryWnd::InitInventory()
 		CUICellItem* itm = create_cell_item(_itm);
 		m_pUIAutomaticList->SetItem(itm);
 	}
-    
-    
-    _itm								= m_pInv->m_slots[KNIFE_SLOT].m_pIItem;
-	if(_itm)
-	{
-		CUICellItem* itm				= create_cell_item(_itm);
-		m_pUIKnifeList->SetItem		(itm);
-	}
-
-	_itm								= m_pInv->m_slots[APPARATUS_SLOT].m_pIItem;
-	if(_itm)
-	{
-		CUICellItem* itm				= create_cell_item(_itm);
-		m_pUIBinocList->SetItem		(itm);
-	}
-
-	_itm								= m_pInv->m_slots[TORCH_SLOT].m_pIItem;
-	if(_itm)
-	{
-		CUICellItem* itm				= create_cell_item(_itm);
-		m_pUITorchList->SetItem		(itm);
-	}
-
-    
-    
-    
-    
-    
-    
 
 	PIItem _outfit = m_pInv->m_slots[OUTFIT_SLOT].m_pIItem;
 	CUICellItem* outfit = (_outfit) ? create_cell_item(_outfit) : NULL;
@@ -383,19 +354,6 @@ CUIDragDropListEx* CUIInventoryWnd::GetSlotList(u32 slot_idx)
 	case PISTOL_SLOT:
 		return m_pUIPistolList;
 		break;
-        
-    case KNIFE_SLOT:
-		return m_pUIKnifeList;
-		break;
-
-	case APPARATUS_SLOT:
-		return m_pUIBinocList;
-		break;
-
-	case TORCH_SLOT:
-		return m_pUITorchList;
-		break;    
-        
 
 	case RIFLE_SLOT:
 		return m_pUIAutomaticList;
@@ -414,8 +372,5 @@ void CUIInventoryWnd::ClearAllLists()
 	m_pUIBeltList->ClearAll(true);
 	m_pUIOutfitList->ClearAll(true);
 	m_pUIPistolList->ClearAll(true);
-    m_pUIKnifeList->ClearAll(true);
-	m_pUIBinocList->ClearAll(true);
-	m_pUITorchList->ClearAll(true);
 	m_pUIAutomaticList->ClearAll(true);
 }
