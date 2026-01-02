@@ -19,6 +19,8 @@
 #include "..\environment.h"
 #endif
 
+#include "xrRender_console.h"
+
 const float dbgOffset = 0.f;
 const int dbgItems = 128;
 
@@ -194,7 +196,10 @@ void CDetailManager::UpdateVisibleM()
 	Fmatrix Viewm_old = Device.mFullTransform;
 	View_old.CreateFromMatrix(Viewm_old, FRUSTUM_P_LRTB + FRUSTUM_P_FAR);
 
-	float fade_limit = dm_fade;
+    
+    
+    
+	float fade_limit = float(2 * ps_r__Detail_radius) - .5f;
 	fade_limit = fade_limit * fade_limit;
 	float fade_start = 1.f;
 	fade_start = fade_start * fade_start;

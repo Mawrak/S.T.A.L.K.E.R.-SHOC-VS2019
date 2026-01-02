@@ -109,6 +109,7 @@ float ps_r2_gloss_factor = 1.0f;
 //- Mad Max
 
 int ps_r2_smapsize = 4096;
+int ps_r__Detail_radius = 50;
 
 
 #ifndef _EDITOR
@@ -423,6 +424,8 @@ void xrRender_initconsole()
 	CMD4(CCC_Vector3, "r2_aa_weight", &ps_r2_aa_weight, tw_min, tw_max);
     
     CMD4(CCC_Integer, "r2_smapsize", &ps_r2_smapsize, 2048, 4096);
+    
+    CMD4(CCC_Integer, "grass", &ps_r__Detail_radius, 24, 66);
 }
 
 void xrRender_apply_tf()

@@ -101,7 +101,7 @@ extern ECORE_API int ps_r2_wait_sleep;
 
 extern ECORE_API int ps_r2_smapsize;
 
-
+extern ECORE_API int ps_r__Detail_radius;
 
 enum
 {
