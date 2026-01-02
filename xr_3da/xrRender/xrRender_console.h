@@ -103,6 +103,8 @@ extern ECORE_API int ps_r2_smapsize;
 
 extern ECORE_API int ps_r__Detail_radius;
 
+extern ECORE_API float ps_fake_gi;
+
 enum
 {
 	R2FLAG_SUN = (1 << 0),

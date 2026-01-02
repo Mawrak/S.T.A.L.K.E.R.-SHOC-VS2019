@@ -109,8 +109,8 @@ float ps_r2_gloss_factor = 1.0f;
 //- Mad Max
 
 int ps_r2_smapsize = 4096;
-int ps_r__Detail_radius = 50;
-
+int ps_r__Detail_radius = 40;
+float ps_fake_gi = 0.f;
 
 #ifndef _EDITOR
 #include "..\xr_ioconsole.h"
@@ -426,6 +426,8 @@ void xrRender_initconsole()
     CMD4(CCC_Integer, "r2_smapsize", &ps_r2_smapsize, 2048, 4096);
     
     CMD4(CCC_Integer, "grass", &ps_r__Detail_radius, 24, 66);
+    
+    CMD4(CCC_Float, "fake_gi", &ps_fake_gi, .0f, 1.f);
 }
 
 void xrRender_apply_tf()

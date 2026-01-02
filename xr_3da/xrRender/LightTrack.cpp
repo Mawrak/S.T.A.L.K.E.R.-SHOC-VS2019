@@ -174,7 +174,7 @@ void CROS_impl::update(IRenderable* O)
     #if RENDER == R_R2
         
     if (hemi_value == 0)
-    {hemi_value = hemi_value+0.1;}
+    {hemi_value = hemi_value+0.1*ps_fake_gi;}
     
     #endif
     
