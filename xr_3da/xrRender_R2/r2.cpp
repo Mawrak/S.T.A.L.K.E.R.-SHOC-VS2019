@@ -221,7 +221,10 @@ void CRender::create()
 		o.smapsize = 3072;
 	if (strstr(Core.Params, "-smap4096"))
 		o.smapsize = 4096;
-
+    else
+        o.smapsize = ps_r2_smapsize; // Use console variable as default
+    
+    
 	// gloss
 	char* g = strstr(Core.Params, "-gloss ");
 	o.forcegloss = g ? TRUE : FALSE;

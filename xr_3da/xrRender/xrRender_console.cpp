@@ -107,6 +107,10 @@ float ps_r2_slight_fade = 1.f; // 1.f
 //- Mad Max
 float ps_r2_gloss_factor = 1.0f;
 //- Mad Max
+
+int ps_r2_smapsize = 4096;
+
+
 #ifndef _EDITOR
 #include "..\xr_ioconsole.h"
 #include "..\xr_ioc_cmd.h"
@@ -417,6 +421,8 @@ void xrRender_initconsole()
 	tw_min.set(0, 0, 0);
 	tw_max.set(1, 1, 1);
 	CMD4(CCC_Vector3, "r2_aa_weight", &ps_r2_aa_weight, tw_min, tw_max);
+    
+    CMD4(CCC_Integer, "r2_smapsize", &ps_r2_smapsize, 2048, 4096);
 }
 
 void xrRender_apply_tf()
