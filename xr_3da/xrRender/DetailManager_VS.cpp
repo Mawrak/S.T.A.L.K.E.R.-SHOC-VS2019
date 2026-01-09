@@ -133,10 +133,19 @@ void CDetailManager::hw_Unload()
 
 void CDetailManager::hw_Render()
 {
+    
+    // In hw_Render():
+    // Use a wrapped time value for ALL calculations
+    static float wrappedTime = 0.0f;
+    wrappedTime += Device.fTimeDelta; // Increment by frame delta
+    if (wrappedTime > 10000.0f) wrappedTime -= 10000.0f; // Keep in range
+
 	// Render-prepare
 	Fvector4 dir1, dir2;
-	float tm_rot1 = (PI_MUL_2 * Device.fTimeGlobal / swing_current.rot1);
-	float tm_rot2 = (PI_MUL_2 * Device.fTimeGlobal / swing_current.rot2);
+	// Use wrappedTime instead of Device.fTimeGlobal everywhere
+    float tm_rot1 = (PI_MUL_2 * wrappedTime / swing_current.rot1);
+    float tm_rot2 = (PI_MUL_2 * wrappedTime / swing_current.rot2);
+    float wavePhase = wrappedTime * swing_current.speed;
 	dir1.set(_sin(tm_rot1), 0, _cos(tm_rot1), 0).normalize().mul(swing_current.amp1);
 	dir2.set(_sin(tm_rot2), 0, _cos(tm_rot2), 0).normalize().mul(swing_current.amp2);
 
@@ -146,14 +155,14 @@ void CDetailManager::hw_Render()
 	// Wave0
 	float scale = 1.f / float(quant);
 	Fvector4 wave;
-	wave.set(1.f / 5.f, 1.f / 7.f, 1.f / 3.f, Device.fTimeGlobal * swing_current.speed);
+	wave.set(1.f / 5.f, 1.f / 7.f, 1.f / 3.f, wavePhase);
 	RCache.set_c(&*hwc_consts, scale, scale, ps_r__Detail_l_aniso, ps_r__Detail_l_ambient); // consts
 	RCache.set_c(&*hwc_wave, wave.div(PI_MUL_2));											// wave
 	RCache.set_c(&*hwc_wind, dir1);															// wind-dir
 	hw_Render_dump(&*hwc_array, 1, 0, c_hdr);
 
 	// Wave1
-	wave.set(1.f / 3.f, 1.f / 7.f, 1.f / 5.f, Device.fTimeGlobal * swing_current.speed);
+	wave.set(1.f / 3.f, 1.f / 7.f, 1.f / 5.f, wavePhase);
 	RCache.set_c(&*hwc_wave, wave.div(PI_MUL_2)); // wave
 	RCache.set_c(&*hwc_wind, dir2);				  // wind-dir
 	hw_Render_dump(&*hwc_array, 2, 0, c_hdr);
