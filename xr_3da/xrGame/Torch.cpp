@@ -478,6 +478,7 @@ void CTorch::net_Export(NET_Packet& P)
 	}
 	P.w_u8(F);
 	//	Msg("CTorch::net_export - NV[%d]", m_bNightVisionOn);
+    P.w_float_q8			(m_fCondition,0.0f,1.0f);
 }
 
 void CTorch::net_Import(NET_Packet& P)
@@ -496,6 +497,7 @@ void CTorch::net_Import(NET_Packet& P)
 
 		SwitchNightVision(new_m_bNightVisionOn);
 	}
+    P.r_float_q8			(m_fCondition,0.0f,1.0f);
 }
 
 bool CTorch::can_be_attached() const

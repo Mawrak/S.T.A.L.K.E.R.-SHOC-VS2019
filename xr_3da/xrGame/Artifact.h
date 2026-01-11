@@ -46,6 +46,9 @@ class CArtefact : public CHudItemObject, public CPHUpdateObject
 	{
 		return this;
 	}
+    
+    virtual void net_Export(NET_Packet& P);
+	virtual void net_Import(NET_Packet& P);
 
   protected:
 	virtual void UpdateCLChild(){};
