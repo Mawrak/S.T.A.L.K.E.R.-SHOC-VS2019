@@ -26,14 +26,17 @@ CUIMMShniaga::CUIMMShniaga()
 	m_magnifier = xr_new<CUIStatic>();
 	m_shniaga->AttachChild(m_magnifier);
 	m_magnifier->SetPPMode();
+    
+    m_gratings[0] = xr_new<CUIStatic>();
+	m_shniaga->AttachChild(m_gratings[0]);
+	m_gratings[1] = xr_new<CUIStatic>();
+	m_shniaga->AttachChild(m_gratings[1]);
+    
 	m_anims[0] = xr_new<CUIStatic>();
 	m_shniaga->AttachChild(m_anims[0]);
 	m_anims[1] = xr_new<CUIStatic>();
 	m_shniaga->AttachChild(m_anims[1]);
-	m_gratings[0] = xr_new<CUIStatic>();
-	m_shniaga->AttachChild(m_gratings[0]);
-	m_gratings[1] = xr_new<CUIStatic>();
-	m_shniaga->AttachChild(m_gratings[1]);
+
 
 	m_mag_pos = 0;
 
@@ -120,6 +123,7 @@ void CUIMMShniaga::Init(CUIXml& xml_doc, LPCSTR path)
 	m_wheel_size[0] = m_anims[0]->GetWndSize();
 
 	m_wheel_size[1].set(m_wheel_size[0]);
+    m_wheel_size[1].x	/= 1.33f;
 }
 
 void CUIMMShniaga::OnDeviceReset()
