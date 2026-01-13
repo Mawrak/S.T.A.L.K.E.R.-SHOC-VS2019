@@ -24,14 +24,26 @@ function main_menu:InitControls()
     xml:ParseFile("ui_mm_main.xml")
     
     
-    local randomInt = math.random(1, 2)
+    local randomInt = math.random(1, 5)
     
     if randomInt == 1 then
         xml:InitStatic("back_movie", self)
         xml:InitStatic("background", self)
         xml:InitStatic("fire_movie", self)
     
-    else
+    elseif randomInt == 2 then
+        xml:InitStatic("back_movie", self)
+        xml:InitStatic("background", self)
+        xml:InitStatic("fire_movie", self)
+    elseif randomInt == 3 then
+        xml:InitStatic("back_movie", self)
+        xml:InitStatic("background", self)
+        xml:InitStatic("fire_movie", self)
+    elseif randomInt == 4 then
+        xml:InitStatic("back_movie", self)
+        xml:InitStatic("background", self)
+        xml:InitStatic("fire_movie", self)
+    elseif randomInt == 5 then
         xml:InitStatic("back_movie", self)
         xml:InitStatic("background", self)
         xml:InitStatic("fire_movie", self)
