@@ -31,6 +31,10 @@ function opt_video_adv:InitControls(x, y, xml, handler)
 	_st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
 	xml:InitStatic								("video_adv:cap_geometry_lod",			_st)
 	xml:InitTrackBar							("video_adv:track_geometry_lod",		_st)
+    
+    _st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
+	xml:InitStatic								("video_adv:cap_grass",					_st)
+	xml:InitTrackBar			                ("video_adv:track_grass",				_st)
 
 	_st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
 	xml:InitStatic								("video_adv:cap_detail_density",		_st)
@@ -58,7 +62,7 @@ function opt_video_adv:InitControls(x, y, xml, handler)
 	xml:InitStatic								("video_adv:cap_r2_sun_details",		_st)
 	ctl			= xml:InitCheck		("video_adv:check_r2_sun_details",		_st)
 	handler.m_preconditions[ctl]		= only_2_mode
-
+    
 	_st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
 	xml:InitStatic								("video_adv:cap_light_distance",		_st)
 	ctl				= xml:InitTrackBar			("video_adv:track_light_distance",		_st)
@@ -68,6 +72,11 @@ function opt_video_adv:InitControls(x, y, xml, handler)
 	xml:InitStatic								("video_adv:cap_npc_torch",				_st)
 	xml:InitCheck								("video_adv:check_npc_torch",			_st)
 
+    _st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
+	xml:InitStatic								("video_adv:cap_smap",					_st)
+	ctl				= xml:InitTrackBar			("video_adv:track_smap",				_st)
+    handler.m_preconditions[ctl]		= only_2_mode
+    
 	_st				= xml:InitStatic			("video_adv:templ_item",				self.scroll_v)
 	xml:InitStatic								("video_adv:cap_particles_distance",	_st)
 	ctl				= xml:InitTrackBar			("video_adv:track_particles_distance",	_st)
@@ -83,4 +92,5 @@ function opt_video_adv:InitControls(x, y, xml, handler)
 
 	btn		= xml:Init3tButton					("video_adv:btn_to_simply",	self)	
 	handler:Register							(btn, "btn_simply_graphic")	
+
 end

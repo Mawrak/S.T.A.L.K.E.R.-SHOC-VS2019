@@ -22,10 +22,24 @@ function main_menu:InitControls()
 	self:Init(0,0,1024,768)			  
     local xml = CScriptXmlInit()
     xml:ParseFile("ui_mm_main.xml")
-     
-    xml:InitStatic("back_movie", self)
-    xml:InitStatic("background", self)
-    xml:InitStatic("fire_movie", self)
+    
+    
+    local randomInt = math.random(1, 2)
+    
+    if randomInt == 1 then
+        xml:InitStatic("back_movie", self)
+        xml:InitStatic("background", self)
+        xml:InitStatic("fire_movie", self)
+    
+    else
+        xml:InitStatic("back_movie", self)
+        xml:InitStatic("background", self)
+        xml:InitStatic("fire_movie", self)
+    
+    end
+    
+    
+    
     self.shniaga = xml:InitMMShniaga("shniaga_wnd",self)
 	
 	self.message_box = CUIMessageBoxEx()

@@ -40,6 +40,10 @@ function actor_binder:net_spawn(data)
 	end
 
 	db.add_actor(self.object)
+    
+    if self.actor_detector.init_time ~= -1 then
+        self.actor_detector:actor_enter()
+    end
 	
 	if self.st.disable_input_time == nil then
 		level.enable_input()
