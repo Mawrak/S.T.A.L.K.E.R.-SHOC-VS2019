@@ -6,7 +6,7 @@
 #pragma hdrstop
 
 #pragma warning(disable : 4995)
-#include <DXSDK/d3dx9.h>
+#include <d3dx9.h>
 #pragma warning(default : 4995)
 
 // #include "std_classes.h"
