@@ -31,10 +31,7 @@ class CTorch : public CInventoryItemObject
 
   private:
 	inline bool can_use_dynamic_lights();
-    // Battery tracking
-	float m_fBatteryTimer;  // Timer to track how long torch has been on
-    float m_fBatteryDuration;
-    
+
   public:
 	CTorch(void);
 	virtual ~CTorch(void);

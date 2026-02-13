@@ -47,9 +47,6 @@ CTorch::CTorch(void)
 	m_NightVisionRechargeTimeMin= 2.f;
 	m_NightVisionDischargeTime	= 10.f;
 	m_NightVisionChargeTime		= 0.f;*/
-    
-    // Initialize battery timer
-	m_fBatteryTimer = 0.0f;
 
 	m_prev_hp.set(0, 0);
 	m_delta_h = 0;
@@ -84,10 +81,6 @@ void CTorch::Load(LPCSTR section)
 	light_trace_bone = pSettings->r_string(section, "light_trace_bone");
 
 	m_bNightVisionEnabled = !!pSettings->r_bool(section, "night_vision");
-    
-    // Load battery duration (default 600 seconds = 10 minutes)
-	m_fBatteryDuration = READ_IF_EXISTS(pSettings, r_float, section, "battery_duration", 600.0f);
-    
 	if (m_bNightVisionEnabled)
 	{
 		HUD_SOUND::LoadSound(section, "snd_night_vision_on", m_NightVisionOnSnd, SOUND_TYPE_ITEM_USING);
@@ -202,32 +195,12 @@ void CTorch::Switch()
 {
 	if (OnClient())
 		return;
-    
-    // Don't allow turning on if condition is 0 (broken)
-    if (!m_switched_on && m_fCondition <= 0.0f)
-        return;
-    
 	bool bActive = !m_switched_on;
 	Switch(bActive);
 }
 
 void CTorch::Switch(bool light_on)
 {
-    // Reset battery timer when turning off
-	if (m_switched_on && !light_on)
-	{
-		m_fBatteryTimer = 0.0f;
-	}
-    
-    // Don't allow turning on if condition is 0 (broken)
-    if (light_on && m_fCondition <= 0.0f)
-        return;
-    
-    // If trying to turn on when broken, force it off
-    if (m_fCondition <= 0.0f)
-        light_on = false;
-    
-    
 	m_switched_on = light_on;
 	if (can_use_dynamic_lights())
 	{
@@ -325,9 +298,6 @@ void CTorch::OnH_B_Independent(bool just_before_destroy)
 
 	Switch(false);
 	SwitchNightVision(false);
-    
-    // Reset battery timer
-	m_fBatteryTimer = 0.0f;
 
 	HUD_SOUND::StopSound(m_NightVisionOnSnd);
 	HUD_SOUND::StopSound(m_NightVisionOffSnd);
@@ -341,35 +311,6 @@ void CTorch::UpdateCL()
 	inherited::UpdateCL();
 
 	UpdateSwitchNightVision();
-    
-
-    
-    // If condition is 0 (broken) and torch is on, turn it off
-    if (m_fCondition <= 0.0f && m_switched_on)
-    {
-        Switch(false);
-    }
-    
-    // Decrease condition over time when torch is on
-	if (m_switched_on && m_fCondition > 0.0f)
-	{
-		// Accumulate time torch has been on
-		m_fBatteryTimer += Device.fTimeDelta;
-		
-		// Calculate how much condition to decrease based on battery duration
-		// Battery duration is how many seconds it takes to go from 1.0 to 0.0
-		float conditionDecrease = Device.fTimeDelta / m_fBatteryDuration;
-		
-		// Decrease condition
-		m_fCondition -= conditionDecrease;
-		
-		// Clamp condition to [0.0, 1.0]
-		if (m_fCondition < 0.0f)
-			m_fCondition = 0.0f;
-		
-		
-	}
-    
 
 	if (!m_switched_on)
 		return;
