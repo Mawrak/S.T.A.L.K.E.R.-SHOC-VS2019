@@ -212,3 +212,24 @@ CPda* CPda::GetPdaFromOwner(CObject* owner)
 {
 	return smart_cast<CInventoryOwner*>(owner)->GetPDA();
 }
+
+
+void CPda::net_Export(NET_Packet& P)
+{
+    inherited::net_Export(P);
+    
+    // Export condition if using it
+   
+        P.w_float_q8(m_fCondition, 0.0f, 1.0f);
+
+}
+
+void CPda::net_Import(NET_Packet& P)
+{
+    inherited::net_Import(P);
+    
+    // Import condition if using it
+    
+        P.r_float_q8(m_fCondition, 0.0f, 1.0f);
+
+}

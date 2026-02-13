@@ -195,6 +195,9 @@ void CTexture::Load()
 	string_path fn;
 	if (FS.exist(fn, "$game_textures$", *cName, ".ogm"))
 	{
+        //moved to UIStatic
+        //Device.Resources->RegisterOGMTexture(cName.c_str());
+        
 		// AVI
 		pTheora = xr_new<CTheoraSurface>();
 		m_play_time = 0xFFFFFFFF;

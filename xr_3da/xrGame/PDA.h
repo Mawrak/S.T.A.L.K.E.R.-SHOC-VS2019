@@ -74,6 +74,8 @@ class CPda : public CInventoryItemObject, public Feel::Touch
 	virtual void load(IReader& input_packet);
 
 	virtual LPCSTR Name();
+    virtual void net_Export(NET_Packet& P);
+	virtual void net_Import(NET_Packet& P);
 
   protected:
 	void UpdateActiveContacts();

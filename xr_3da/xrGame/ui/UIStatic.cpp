@@ -8,6 +8,7 @@
 #include "uilines.h"
 #include "../string_table.h"
 #include "../ui_base.h"
+#include "../../resourcemanager.h"
 
 const char* const clDefault = "default";
 #define CREATE_LINES                                                                                                   \
@@ -137,7 +138,10 @@ void CUIStatic::InitTextureEx(LPCSTR tex_name, LPCSTR sh_name)
 	u32 v_dev = CAP_VERSION(HW.Caps.raster_major, HW.Caps.raster_minor);
 	u32 v_need = CAP_VERSION(2, 0);
 	if (/*strstr(Core.Params,"-ps_movie") &&*/ (v_dev >= v_need) && FS.exist(buff, "$game_textures$", tex_name, ".ogm"))
-		CUITextureMaster::InitTexture(tex_name, "hud\\movie", &m_UIStaticItem);
+    {
+    Device.Resources->RegisterOGMTexture(tex_name);
+    CUITextureMaster::InitTexture(tex_name, "hud\\movie", &m_UIStaticItem);
+    }
 	else
 		CUITextureMaster::InitTexture(tex_name, sh_name, &m_UIStaticItem);
 

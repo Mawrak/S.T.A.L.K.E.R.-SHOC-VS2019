@@ -667,3 +667,23 @@ void SArtefactActivation::SStateDef::Load(LPCSTR section, LPCSTR name)
 	m_particle = clear_brackets(_GetItem(str, 6, tmp));
 	m_animation = clear_brackets(_GetItem(str, 7, tmp));
 }
+
+void CArtefact::net_Export(NET_Packet& P)
+{
+    inherited::net_Export(P);
+    
+    // Export condition if using it
+   
+        P.w_float_q8(m_fCondition, 0.0f, 1.0f);
+
+}
+
+void CArtefact::net_Import(NET_Packet& P)
+{
+    inherited::net_Import(P);
+    
+    // Import condition if using it
+    
+        P.r_float_q8(m_fCondition, 0.0f, 1.0f);
+
+}

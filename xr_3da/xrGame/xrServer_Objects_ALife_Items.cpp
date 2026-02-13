@@ -340,6 +340,7 @@ void CSE_ALifeItemTorch::UPDATE_Read(NET_Packet& tNetPacket)
 	m_active = !!(F & eTorchActive);
 	m_nightvision_active = !!(F & eNightVisionActive);
 	m_attached = !!(F & eAttached);
+    tNetPacket.r_float_q8(m_fCondition,0.0f,1.0f);
 }
 
 void CSE_ALifeItemTorch::UPDATE_Write(NET_Packet& tNetPacket)
@@ -351,6 +352,7 @@ void CSE_ALifeItemTorch::UPDATE_Write(NET_Packet& tNetPacket)
 	F |= (m_nightvision_active ? eNightVisionActive : 0);
 	F |= (m_attached ? eAttached : 0);
 	tNetPacket.w_u8(F);
+    tNetPacket.w_float_q8(m_fCondition,0.0f,1.0f);
 }
 
 void CSE_ALifeItemTorch::FillProps(LPCSTR pref, PropItemVec& values)
@@ -764,11 +766,13 @@ void CSE_ALifeItemArtefact::STATE_Write(NET_Packet& tNetPacket)
 void CSE_ALifeItemArtefact::UPDATE_Read(NET_Packet& tNetPacket)
 {
 	inherited::UPDATE_Read(tNetPacket);
+    tNetPacket.r_float_q8(m_fCondition,0.0f,1.0f);
 }
 
 void CSE_ALifeItemArtefact::UPDATE_Write(NET_Packet& tNetPacket)
 {
 	inherited::UPDATE_Write(tNetPacket);
+    tNetPacket.w_float_q8(m_fCondition,0.0f,1.0f);
 }
 
 void CSE_ALifeItemArtefact::FillProps(LPCSTR pref, PropItemVec& items)
@@ -838,11 +842,13 @@ void CSE_ALifeItemPDA::STATE_Write(NET_Packet& tNetPacket)
 void CSE_ALifeItemPDA::UPDATE_Read(NET_Packet& tNetPacket)
 {
 	inherited::UPDATE_Read(tNetPacket);
+    tNetPacket.r_float_q8(m_fCondition,0.0f,1.0f);
 }
 
 void CSE_ALifeItemPDA::UPDATE_Write(NET_Packet& tNetPacket)
 {
 	inherited::UPDATE_Write(tNetPacket);
+    tNetPacket.w_float_q8(m_fCondition,0.0f,1.0f);
 }
 
 void CSE_ALifeItemPDA::FillProps(LPCSTR pref, PropItemVec& items)

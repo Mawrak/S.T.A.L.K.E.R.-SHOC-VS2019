@@ -79,7 +79,11 @@ class ENGINE_API CResourceManager
   private:
 	void LS_Load();
 	void LS_Unload();
-
+  public:
+    void UnloadOGMTextures();
+    void RegisterOGMTexture(LPCSTR name);
+  private:
+    xr_vector<shared_str> m_ogm_textures;   // stores names of .ogm textures
   public:
 	// Miscelaneous
 	void _ParseList(sh_list& dest, LPCSTR names);

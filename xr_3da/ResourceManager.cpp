@@ -429,3 +429,37 @@ BOOL	CResourceManager::_GetDetailTexture(LPCSTR Name,LPCSTR& T, R_constant_setup
 		return FALSE;
 	}
 }*/
+
+//RegisterOGMTexture registed textures of specific origin (main menu UI texture fix)
+void CResourceManager::RegisterOGMTexture(LPCSTR name)
+{
+    if (!name || !name[0])
+        return;
+    
+    // ?? Only register menu movie textures (start with "ui_mm")
+    if (strstr(name, "ui_mm") == nullptr)
+    {
+        Msg("Non-UI OGM texture ignored: %s", name);
+        return;
+    }
+
+    shared_str s_name(name);
+    for (const auto& existing : m_ogm_textures)
+        if (existing == s_name)
+            return;
+    Msg("OGM texture registered: %s", name);
+    m_ogm_textures.push_back(s_name);
+}
+//UnloadOGMTextures unloads textures of specific origin (main menu UI texture fix)
+void CResourceManager::UnloadOGMTextures()
+{
+    if (!Device.b_is_Ready)
+        return;
+
+    for (const shared_str& name : m_ogm_textures)
+    {
+        map_TextureIt it = m_textures.find(name.c_str());
+        if (it != m_textures.end())
+            it->second->Unload();
+    }
+}
