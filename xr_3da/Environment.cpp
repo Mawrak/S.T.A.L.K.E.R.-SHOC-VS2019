@@ -470,8 +470,9 @@ void CEnvironment::OnFrame()
     
     
     
-    
-    
+    //This unloads all UI-related OMG textures on Update
+    Device.Resources->UnloadOGMTextures();
+
     
     
 	//. Setup skybox textures, somewhat ugly
