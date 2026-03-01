@@ -462,4 +462,15 @@ void CResourceManager::UnloadOGMTextures()
         if (it != m_textures.end())
             it->second->Unload();
     }
+    
+}
+
+
+
+void CResourceManager::UnloadTexture(LPCSTR name) {
+    auto it = m_textures.find(name);
+    if (it != m_textures.end()) {
+        it->second->Unload();
+        // Optionally remove from m_ogm_textures if it was there
+    }
 }

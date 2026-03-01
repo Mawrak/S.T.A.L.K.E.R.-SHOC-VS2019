@@ -471,7 +471,7 @@ void CEnvironment::OnFrame()
     
     
     //This unloads all UI-related OMG textures on Update
-    Device.Resources->UnloadOGMTextures();
+    //Device.Resources->UnloadOGMTextures();
 
     
     

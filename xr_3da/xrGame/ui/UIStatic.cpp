@@ -139,7 +139,8 @@ void CUIStatic::InitTextureEx(LPCSTR tex_name, LPCSTR sh_name)
 	u32 v_need = CAP_VERSION(2, 0);
 	if (/*strstr(Core.Params,"-ps_movie") &&*/ (v_dev >= v_need) && FS.exist(buff, "$game_textures$", tex_name, ".ogm"))
     {
-    Device.Resources->RegisterOGMTexture(tex_name);
+    //Device.Resources->RegisterOGMTexture(tex_name);
+    Device.Resources->UnloadTexture(tex_name);
     CUITextureMaster::InitTexture(tex_name, "hud\\movie", &m_UIStaticItem);
     }
 	else
