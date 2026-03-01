@@ -112,6 +112,9 @@ int ps_r2_smapsize = 4096;
 int ps_r__Detail_radius = 40;
 float ps_fake_gi = 0.f;
 
+
+int ps_bloodmark = 1;
+
 #ifndef _EDITOR
 #include "..\xr_ioconsole.h"
 #include "..\xr_ioc_cmd.h"
@@ -428,6 +431,8 @@ void xrRender_initconsole()
     CMD4(CCC_Integer, "grass", &ps_r__Detail_radius, 24, 66);
     
     CMD4(CCC_Float, "fake_gi", &ps_fake_gi, .0f, 1.f);
+    
+    CMD4(CCC_Integer, "bloodmark", &ps_bloodmark, 0, 1);
 }
 
 void xrRender_apply_tf()

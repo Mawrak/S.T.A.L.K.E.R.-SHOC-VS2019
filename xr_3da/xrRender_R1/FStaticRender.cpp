@@ -645,7 +645,7 @@ void CRender::Render()
 	L_Dynamic->render(); // addititional light sources
 	if (Wallmarks)
 	{
-		//g_r = 0;
+		g_r = ps_bloodmark;
 		Wallmarks->Render(); // wallmarks has priority as normal geometry
 	}
 	HOM.Enable();
