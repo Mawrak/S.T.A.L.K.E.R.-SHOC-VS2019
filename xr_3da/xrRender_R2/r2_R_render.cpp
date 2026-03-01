@@ -407,7 +407,7 @@ void CRender::Render()
 	if (Wallmarks)
 	{
 		Target->phase_wallmarks();
-		g_r = 0;
+		//g_r = 0;
 		Wallmarks->Render(); // wallmarks has priority as normal geometry
 	}
 
