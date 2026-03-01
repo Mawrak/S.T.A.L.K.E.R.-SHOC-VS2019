@@ -43,7 +43,22 @@ u32 last_render_frame = 0;
 void CUICursor::OnRender()
 {
 	if (!IsVisible())
+    {
+        bPrevVisible = false;
 		return;
+    }
+    
+    
+    // If we just became visible this frame, sync the system cursor to our frozen position
+    if (!bPrevVisible)
+    {
+        SetUICursorPosition(vPos);   // moves the real mouse cursor to match vPos
+    }
+
+    bPrevVisible = true;
+    // Force an update to ensure vPos matches system (optional – but harmless now)
+    UpdateCursorPosition();
+    
 #ifdef DEBUG
 	VERIFY(last_render_frame != Device.dwFrame);
 	last_render_frame = Device.dwFrame;
@@ -59,7 +74,7 @@ void CUICursor::OnRender()
 		F->OutNext("%f-%f", pt.x, pt.y);
 	}
 #endif
-
+    
 	m_static->SetWndPos(vPos);
 	m_static->Update();
 	m_static->Draw();
@@ -82,6 +97,8 @@ Fvector2 CUICursor::GetCursorPositionDelta()
 void CUICursor::UpdateCursorPosition()
 {
 
+    if (!bVisible)      // <-- added
+        return;
 	POINT p;
 	BOOL r = GetCursorPos(&p);
 	R_ASSERT(r);

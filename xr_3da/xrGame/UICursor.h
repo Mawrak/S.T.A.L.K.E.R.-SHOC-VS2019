@@ -13,6 +13,8 @@ class CUICursor : public pureRender
 
 	CUIStatic* m_static;
 	void InitInternal();
+  private:
+    bool bPrevVisible;   // track previous frame's visibility
 
   public:
 	CUICursor();
