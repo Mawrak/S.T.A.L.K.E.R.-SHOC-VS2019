@@ -794,6 +794,7 @@
     <ClCompile Include="xr_effgamma.cpp" />
     <ClCompile Include="xr_efflensflare.cpp" />
     <ClCompile Include="Xr_input.cpp" />
+    <ClCompile Include="trivial_encryptor.cpp" />
     <ClCompile Include="XR_IOConsole.cpp" />
     <ClCompile Include="xr_ioc_cmd.cpp" />
     <ClCompile Include="xr_object.cpp" />

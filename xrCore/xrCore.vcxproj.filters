@@ -75,6 +75,9 @@
     <ClCompile Include="FTimer.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
+    <ClCompile Include="..\xr_3da\trivial_encryptor.cpp">
+      <Filter>FS</Filter>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
@@ -254,6 +257,9 @@
   <ItemGroup>
     <ClInclude Include="FTimer.h">
       <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\xr_3da\trivial_encryptor.h">
+      <Filter>FS</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Kernel</Filter>

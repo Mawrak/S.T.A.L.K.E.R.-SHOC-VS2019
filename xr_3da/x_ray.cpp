@@ -538,10 +538,8 @@ BOOL IsOutOfVirtualMemory()
 
 #include "xr_ioc_cmd.h"
 
-typedef void DUMMY_STUFF(const void*, const u32&, void*);
-XRCORE_API DUMMY_STUFF* g_temporary_stuff;
 
-//#define TRIVIAL_ENCRYPTOR_DECODER
+#define TRIVIAL_ENCRYPTOR_DECODER
 #include "trivial_encryptor.h"
 
 //#define RUSSIAN_BUILD
@@ -637,7 +635,6 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lp
 		sscanf(strstr(lpCmdLine, fsgame_ltx_name) + sz, "%[^ ] ", fsgame);
 	}
 
-	g_temporary_stuff = &trivial_encryptor::decode;
 
 	compute_build_id();
 	Core._initialize("xray", NULL, TRUE, fsgame[0] ? fsgame : NULL);
@@ -754,27 +751,23 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLi
 
 LPCSTR _GetFontTexName(LPCSTR section)
 {
-	static char* tex_names[] = {"texture800", "texture", "texture1600"};
+	static char* tex_names[] = {"texture800", "texture", "texture1600", "texture2k", "texture4k"};
 	int def_idx = 1; // default 1024x768
 	int idx = def_idx;
 
-#if 0
-	u32 w = Device.dwWidth;
-
-	if (w <= 800)		idx = 0;
-	else if (w <= 1280)idx = 1;
-	else 			idx = 2;
-#else
 	u32 h = Device.dwHeight;
 
 	if (h <= 600)
 		idx = 0;
 	else if (h <= 900)
 		idx = 1;
-	else
+	else if (h <= 1200)
 		idx = 2;
-#endif
-
+    else if (h <= 1440)
+		idx = 3;
+    else
+        idx = 4;
+    
 	while (idx >= 0)
 	{
 		if (pSettings->line_exist(section, tex_names[idx]))

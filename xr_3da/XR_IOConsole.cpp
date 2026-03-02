@@ -254,18 +254,21 @@ void CConsole::OnPressKey(int dik, BOOL bHold)
 		if (scroll_delta < 0)
 			scroll_delta = 0;
 		break;
-	case DIK_TAB: {
-		LPCSTR radmin_cmd_name = "ra ";
-		bool b_ra = (editor == strstr(editor, radmin_cmd_name));
-		int offset = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
-		vecCMD_IT I = Commands.lower_bound(editor + offset);
-		if (I != Commands.end())
-		{
-			IConsole_Command& O = *(I->second);
-			strcpy_s(editor + offset, sizeof(editor) - offset, O.Name());
-			strcat(editor + offset, " ");
-		}
-	}
+	case DIK_TAB:
+        if (!bHold) 
+        {
+            LPCSTR radmin_cmd_name = "ra ";
+            bool b_ra = (editor == strstr(editor, radmin_cmd_name));
+            int offset = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
+            vecCMD_IT I = Commands.lower_bound(editor + offset);
+            if (I != Commands.end())
+            {
+                IConsole_Command& O = *(I->second);
+                strcpy_s(editor + offset, sizeof(editor) - offset, O.Name());
+                strcat(editor + offset, " ");
+            }
+        }
+        break;
 	break;
 	case DIK_UP:
 		cmd_delta--;
@@ -656,6 +659,10 @@ void CConsole::Show()
 	editor[0] = 0;
 	rep_time = 0;
 	fAccel = 1.0f;
+    
+    // Reset history navigation to the most recent command
+    cmd_delta = 0;
+    old_cmd_delta = 0;
 
 	IR_Capture();
 	Device.seqRender.Add(this, 1);

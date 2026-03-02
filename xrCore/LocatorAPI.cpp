@@ -15,12 +15,11 @@
 #include "stream_reader.h"
 #include "file_stream_reader.h"
 
+#include "../xr_3da/trivial_encryptor.h"
+
 const u32 BIG_FILE_READER_WINDOW_SIZE = 1024 * 1024;
 
 #define PROTECTED_BUILD
-
-typedef void DUMMY_STUFF(const void*, const u32&, void*);
-XRCORE_API DUMMY_STUFF* g_temporary_stuff = 0;
 
 #ifdef PROTECTED_BUILD
 #pragma warning(push)
@@ -277,7 +276,7 @@ void CLocatorAPI::Register(LPCSTR name, u32 vfs, u32 crc, u32 ptr, u32 size_real
 	}
 }
 
-IReader* open_chunk(void* ptr, u32 ID)
+IReader* open_chunk(void* ptr, u32 ID, pcstr archiveName, u32 archiveSize)
 {
 	BOOL res;
 	u32 dwType, dwSize;
@@ -297,11 +296,31 @@ IReader* open_chunk(void* ptr, u32 ID)
 			VERIFY(res && (read_byte == dwSize));
 			if (dwType & CFS_CompressMark)
 			{
-				BYTE* dest;
-				unsigned dest_sz;
-				if (g_temporary_stuff)
-					g_temporary_stuff(src_data, dwSize, src_data);
-				_decompressLZ(&dest, &dest_sz, src_data, dwSize);
+				
+                BYTE* dest = nullptr;
+                unsigned dest_sz = 0;
+
+				
+
+                bool result = _decompressLZ(&dest, &dest_sz, src_data, dwSize, archiveSize);
+
+                if (!result)
+				{
+					// Let's try to decode with WW key
+					g_trivial_encryptor.decode(src_data, dwSize, src_data);
+					result = _decompressLZ(&dest, &dest_sz, src_data, dwSize, archiveSize);
+				}
+                
+                if (!result)
+				{
+					// Let's try to decode with RU key
+					g_trivial_encryptor.encode(src_data, dwSize, src_data); // rollback
+					g_trivial_encryptor.decode(src_data, dwSize, src_data, trivial_encryptor::key_flag::russian);
+					result = _decompressLZ(&dest, &dest_sz, src_data, dwSize, archiveSize);
+				}
+				R_ASSERT3(result, "Can't decompress archive", archiveName);
+                
+                
 				xr_free(src_data);
 				return xr_new<CTempReader>(dest, dest_sz, 0);
 			}
@@ -329,12 +348,7 @@ void CLocatorAPI::ProcessArchive(LPCSTR _path, LPCSTR base_path)
 		if (it->path == path)
 			return;
 
-	DUMMY_STUFF* g_temporary_stuff_subst = NULL;
-	if (strstr(_path, ".xdb"))
-	{
-		g_temporary_stuff_subst = g_temporary_stuff;
-		g_temporary_stuff = NULL;
-	}
+	
 	// open archive
 	archives.push_back(archive());
 	archive& A = archives.back();
@@ -362,7 +376,7 @@ void CLocatorAPI::ProcessArchive(LPCSTR _path, LPCSTR base_path)
 	strcat(base, "\\");
 
 	// Read headers
-	IReader* hdr = open_chunk(A.hSrcFile, 1);
+	IReader* hdr = open_chunk(A.hSrcFile,1, A.path.c_str(), A.size); R_ASSERT(hdr);
 	R_ASSERT(hdr);
 	RStringVec fv;
 	while (!hdr->eof())
@@ -405,9 +419,6 @@ void CLocatorAPI::ProcessArchive(LPCSTR _path, LPCSTR base_path)
 		Register(full, (u32)vfs, crc, ptr, size_real, size_compr, 0);
 	}
 	hdr->close();
-
-	if (g_temporary_stuff_subst)
-		g_temporary_stuff = g_temporary_stuff_subst;
 }
 
 void CLocatorAPI::ProcessOne(const char* path, void* _F)

@@ -82,6 +82,7 @@ class ENGINE_API CResourceManager
   public:
     void UnloadOGMTextures();
     void RegisterOGMTexture(LPCSTR name);
+    void UnloadTexture(LPCSTR name);
   private:
     xr_vector<shared_str> m_ogm_textures;   // stores names of .ogm textures
   public:

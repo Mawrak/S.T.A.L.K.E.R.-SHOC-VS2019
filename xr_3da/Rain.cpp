@@ -141,7 +141,7 @@ void CEffect_Rain::OnFrame()
 		if (factor < EPS_L)
 			return;
 		state = stWorking;
-		snd_Ambient.play(0, sm_Looped);
+		snd_Ambient.play(0,sm_Looped|sm_2D);
 		snd_Ambient.set_range(source_offset, source_offset * 2.f);
 		break;
 	case stWorking:
@@ -157,9 +157,9 @@ void CEffect_Rain::OnFrame()
 	// ambient sound
 	if (snd_Ambient._feedback())
 	{
-		Fvector sndP;
-		sndP.mad(Device.vCameraPosition, Fvector().set(0, 1, 0), source_offset);
-		snd_Ambient.set_position(sndP);
+		//Fvector sndP;
+		//sndP.mad(Device.vCameraPosition, Fvector().set(0, 1, 0), source_offset);
+		//snd_Ambient.set_position(sndP);
 		snd_Ambient.set_volume(1.1f * factor * hemi_factor);
 	}
 }

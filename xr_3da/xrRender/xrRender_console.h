@@ -105,6 +105,8 @@ extern ECORE_API int ps_r__Detail_radius;
 
 extern ECORE_API float ps_fake_gi;
 
+extern ECORE_API int ps_bloodmark;
+
 enum
 {
 	R2FLAG_SUN = (1 << 0),
