@@ -656,6 +656,10 @@ void CConsole::Show()
 	editor[0] = 0;
 	rep_time = 0;
 	fAccel = 1.0f;
+    
+    // Reset history navigation to the most recent command
+    cmd_delta = 0;
+    old_cmd_delta = 0;
 
 	IR_Capture();
 	Device.seqRender.Add(this, 1);
