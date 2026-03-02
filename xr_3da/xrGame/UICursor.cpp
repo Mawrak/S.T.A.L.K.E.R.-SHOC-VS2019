@@ -57,7 +57,7 @@ void CUICursor::OnRender()
 
     bPrevVisible = true;
     // Force an update to ensure vPos matches system (optional – but harmless now)
-    UpdateCursorPosition();
+    //UpdateCursorPosition();
     
 #ifdef DEBUG
 	VERIFY(last_render_frame != Device.dwFrame);
