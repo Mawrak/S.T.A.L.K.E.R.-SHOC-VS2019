@@ -1,10 +1,7 @@
 	<?xml version="1.0" encoding="windows-1251" ?>
 <string_table>
     
-    <string id="st_detail_list_for_foo">
-		<text>Статистика</text>
-	</string>
-	
+
     
     <string id="ui_mm_smap">
 		<text>Размер карты теней</text>
