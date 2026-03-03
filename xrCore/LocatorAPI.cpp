@@ -33,6 +33,8 @@ const u32 BIG_FILE_READER_WINDOW_SIZE = 1024 * 1024;
 
 CLocatorAPI* xr_FS = NULL;
 
+#define FSLTX_2	"fsgame_requiem.ltx"
+
 #ifdef _EDITOR
 #define FSLTX "fs.ltx"
 #else
@@ -582,9 +584,9 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
 		append_path("$fs_root$", "", 0, FALSE);
 	else
 	{ // find nearest fs.ltx and set fs_root correctly
-		fs_ltx = (fs_name && fs_name[0]) ? fs_name : FSLTX;
+		fs_ltx = (fs_name && fs_name[0]) ? fs_name : FSLTX_2;
 		pFSltx = r_open(fs_ltx);
-
+        
 		if (!pFSltx && m_Flags.is(flScanAppRoot) && strstr(Core.Params, "-fsbindir"))
 		{
 			pFSltx = r_open("$app_root$", fs_ltx);
@@ -615,6 +617,48 @@ void CLocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
 			append_path("$fs_root$", "", 0, FALSE);
 
 		Log("using fs-ltx", fs_ltx);
+        
+        
+        
+        
+        
+        if (!pFSltx)
+        {
+            Msg("fsgame_requiem.ltx not found");
+        fs_ltx = (fs_name && fs_name[0]) ? fs_name : FSLTX;
+		pFSltx = r_open(fs_ltx);
+        
+		if (!pFSltx && m_Flags.is(flScanAppRoot) && strstr(Core.Params, "-fsbindir"))
+		{
+			pFSltx = r_open("$app_root$", fs_ltx);
+		}
+		else if (!pFSltx && m_Flags.is(flScanAppRoot))
+		{
+			pFSltx = r_open("$work_dir$", fs_ltx);
+		}
+
+		if (!pFSltx)
+		{
+			string_path tmpAppPath = "";
+			strcpy_s(tmpAppPath, sizeof(tmpAppPath), Core.ApplicationPath);
+			if (xr_strlen(tmpAppPath))
+			{
+				tmpAppPath[xr_strlen(tmpAppPath) - 1] = 0;
+				if (strrchr(tmpAppPath, '\\'))
+					*(strrchr(tmpAppPath, '\\') + 1) = 0;
+
+				append_path("$fs_root$", tmpAppPath, 0, FALSE);
+			}
+			else
+				append_path("$fs_root$", "", 0, FALSE);
+
+			pFSltx = r_open("$fs_root$", fs_ltx);
+		}
+		else
+			append_path("$fs_root$", "", 0, FALSE);
+
+		Log("using fs-ltx", fs_ltx);
+        }
 	}
 
 	//-----------------------------------------------------------

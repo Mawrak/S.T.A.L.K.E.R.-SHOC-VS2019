@@ -47,7 +47,7 @@ static BOOL bException = FALSE;
 #include <new.h>	// for _set_new_mode
 #include <signal.h> // for signals
 
-#if 0 // def DEBUG
+#if 1 // def DEBUG
 #define USE_OWN_ERROR_MESSAGE_WINDOW
 #else // DEBUG
 #define USE_OWN_MINI_DUMP
@@ -269,7 +269,8 @@ void xrDebug::backend(const char* expression, const char* description, const cha
 	switch (result)
 	{
 	case IDCANCEL: {
-		DEBUG_INVOKE;
+        TerminateProcess(GetCurrentProcess(), 1);
+		//DEBUG_INVOKE;
 		break;
 	}
 	case IDTRYAGAIN: {
