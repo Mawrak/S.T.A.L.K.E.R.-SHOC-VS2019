@@ -97,6 +97,7 @@ extern ECORE_API float ps_r2_zfill;					// .1f
 extern ECORE_API float ps_r2_dhemi_scale; // 1.5f
 extern ECORE_API int ps_r2_dhemi_count;	  // 5
 extern ECORE_API float ps_r2_slight_fade; // 1.f
+extern ECORE_API float ps_r2_slight_fade_multiplier;
 extern ECORE_API int ps_r2_wait_sleep;
 
 extern ECORE_API int ps_r2_smapsize;
@@ -106,6 +107,9 @@ extern ECORE_API int ps_r__Detail_radius;
 extern ECORE_API float ps_fake_gi;
 
 extern ECORE_API int ps_bloodmark;
+
+extern ECORE_API int ps_r2_light_shadows;  // 0 = off, 1 = on
+
 
 enum
 {
