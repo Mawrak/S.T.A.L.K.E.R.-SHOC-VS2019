@@ -338,12 +338,21 @@ void light::_export(light_Package& package)
 
 extern float r_ssaGLOD_start, r_ssaGLOD_end;
 extern float ps_r2_slight_fade;
+extern float ps_r2_slight_fade_multiplier;
 float light::get_LOD()
 {
 	if (!flags.bShadow)
 		return 1;
 	float distSQ = Device.vCameraPosition.distance_to_sqr(spatial.sphere.P) + EPS;
-	float ssa = ps_r2_slight_fade * spatial.sphere.R / distSQ;
+    
+    
+	
+    float ssa =  ps_r2_slight_fade * spatial.sphere.R / distSQ;
+    if (ps_r2_slight_fade_multiplier > 0.f)
+    {ssa =  ps_r2_slight_fade_multiplier * spatial.sphere.R / distSQ;}
+
+
+    
 	float lod = _sqrt(clampr((ssa - r_ssaGLOD_end) / (r_ssaGLOD_start - r_ssaGLOD_end), 0.f, 1.f));
 	return lod;
 }

@@ -103,6 +103,7 @@ int ps_r2_wait_sleep = 0;
 
 float ps_r2_lt_smooth = 1.f;   // 1.f
 float ps_r2_slight_fade = 1.f; // 1.f
+float ps_r2_slight_fade_multiplier = 0.f; // 1.f
 
 //- Mad Max
 float ps_r2_gloss_factor = 1.0f;
@@ -114,6 +115,8 @@ float ps_fake_gi = 0.f;
 
 
 int ps_bloodmark = 1;
+
+int ps_r2_light_shadows = 1;
 
 #ifndef _EDITOR
 #include "..\xr_ioconsole.h"
@@ -417,6 +420,9 @@ void xrRender_initconsole()
 	//	CMD4(CCC_Float,		"r2_parallax_range",	&ps_r2_df_parallax_range,	5.0f,	175.0f	);
 
 	CMD4(CCC_Float, "r2_slight_fade", &ps_r2_slight_fade, .02f, 2.f);
+    
+    CMD4(CCC_Float, "r2_slight_fade_multiplier", &ps_r2_slight_fade_multiplier, .0f, 2.f);
+
 
 	tw_min.set(0, 0, 0);
 	tw_max.set(1, 1, 1);
@@ -433,6 +439,9 @@ void xrRender_initconsole()
     CMD4(CCC_Float, "fake_gi", &ps_fake_gi, .0f, 1.f);
     
     CMD4(CCC_Integer, "bloodmark", &ps_bloodmark, 0, 1);
+    
+    CMD4(CCC_Integer, "shadows", &ps_r2_light_shadows, 0, 1);
+
 }
 
 void xrRender_apply_tf()
