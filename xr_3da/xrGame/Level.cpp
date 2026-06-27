@@ -52,6 +52,10 @@
 #include "physicobject.h"
 #endif
 
+#include "PresenceAudioIntegration/Sound_environment.h"
+
+CSoundEnvironment* g_SoundEnvironment = nullptr;
+
 ENGINE_API bool g_dedicated_server;
 
 extern BOOL g_bDebugDumpPhysicsStep;
@@ -189,6 +193,11 @@ CLevel::CLevel()
 	}
 	*/
 	//---------------------------------------------------------
+	if (!g_dedicated_server)
+	{
+		g_SoundEnvironment = xr_new<CSoundEnvironment>();
+		g_SoundEnvironment->OnLevelLoad();
+	}
 }
 
 extern CAI_Space* g_ai_space;
@@ -197,6 +206,12 @@ CLevel::~CLevel()
 {
 	//	g_pGameLevel		= NULL;
 	Msg("- Destroying level");
+
+	if (!g_dedicated_server)
+	{
+		g_SoundEnvironment->OnLevelUnload();
+		xr_delete(g_SoundEnvironment);
+	}
 
 	Engine.Event.Handler_Detach(eEntitySpawn, this);
 
@@ -593,6 +608,8 @@ void CLevel::OnFrame()
 		pStatGraphR->AppendItem(float(m_dwRPC) * fRPC_Mult, 0xffff0000, 1);
 		pStatGraphR->AppendItem(float(m_dwRPS) * fRPS_Mult, 0xff00ff00, 0);
 	};
+	if (!g_dedicated_server)
+		g_SoundEnvironment->Update();
 }
 
 int psLUA_GCSTEP = 10;
