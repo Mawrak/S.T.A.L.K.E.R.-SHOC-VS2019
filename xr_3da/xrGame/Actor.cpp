@@ -1181,7 +1181,7 @@ void CActor::shedule_Update(u32 DT)
 
 				else if (pEntityAlive && !pEntityAlive->g_Alive())
 				{
-					bool b_allow_drag = !!pSettings->line_exist("ph_capture_visuals", pEntityAlive->cNameVisual());
+					bool b_allow_drag = true;
 
 					if (b_allow_drag)
 						m_sDefaultObjAction = m_sDeadCharacterUseOrDragAction;
