@@ -517,12 +517,6 @@ void CSoundRender_Core::commit_eax(const SEAXEnvironmentData* data)
 {
 	if (!bEAX || !data)
 		return;
-    Msg("EAX commit: Room=%d, RoomHF=%d, RoomRolloffFactor=%.3f, DecayTime=%.3f, DecayHFRatio=%.3f, "
-    "Reflections=%d, ReflectionsDelay=%.3f, Reverb=%d, ReverbDelay=%.3f, "
-    "EnvironmentSize=%.3f, EnvironmentDiffusion=%.3f, AirAbsorptionHF=%.3f, Flags=0x%08X",
-    data->lRoom, data->lRoomHF, data->flRoomRolloffFactor, data->flDecayTime, data->flDecayHFRatio,
-    data->lReflections, data->flReflectionsDelay, data->lReverb, data->flReverbDelay,
-    data->flEnvironmentSize, data->flEnvironmentDiffusion, data->flAirAbsorptionHF, data->dwFlags);
 	EAXLISTENERPROPERTIES ep;
 	ZeroMemory(&ep, sizeof(ep));
 
