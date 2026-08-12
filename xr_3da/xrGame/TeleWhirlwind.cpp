@@ -140,7 +140,7 @@ void CTeleWhirlwindObject::release()
 	bool b_destroyed = false;
 	if (magnitude < 2.f * object->Radius())
 	{
-		//b_destroyed = destroy_object(dir_inv, throw_power * 100.f);
+		b_destroyed = destroy_object(dir_inv, throw_power * 100.f);
 	}
 
 	if (!b_destroyed)
