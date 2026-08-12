@@ -28,8 +28,8 @@ void CMincer::OnStateSwitch(EZoneState new_state)
 		for (it = m_ObjectInfoMap.begin(); m_ObjectInfoMap.end() != it; ++it)
 		{
 			CPhysicsShellHolder* GO = smart_cast<CPhysicsShellHolder*>((*it).object);
-			if (GO)
-				Telekinesis().activate(GO, m_fThrowInImpulse, m_fTeleHeight, 100000);
+			if (GO && !smart_cast<CEntityAlive*>(GO))
+                Telekinesis().activate(GO, m_fThrowInImpulse, m_fTeleHeight, 100000);
 		}
 	}
 
@@ -75,7 +75,8 @@ void CMincer::feel_touch_new(CObject* O)
 	if (m_eZoneState == eZoneStateBlowout && (m_dwBlowoutExplosionTime > (u32)m_iStateTime))
 	{
 		CPhysicsShellHolder* GO = smart_cast<CPhysicsShellHolder*>(O);
-		Telekinesis().activate(GO, m_fThrowInImpulse, m_fTeleHeight, 100000);
+		if (GO && !smart_cast<CEntityAlive*>(GO))
+                Telekinesis().activate(GO, m_fThrowInImpulse, m_fTeleHeight, 100000);
 	}
 }
 BOOL CMincer::feel_touch_contact(CObject* O)
