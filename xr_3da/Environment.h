@@ -332,3 +332,7 @@ ENGINE_API extern Flags32 psEnvFlags;
 ENGINE_API extern float psVisDistance;
 
 #endif // EnvironmentH
+
+ENGINE_API extern float ps_env_amb_mult;
+ENGINE_API extern float ps_env_hemi_mult;
+ENGINE_API extern float ps_env_sun_mult;

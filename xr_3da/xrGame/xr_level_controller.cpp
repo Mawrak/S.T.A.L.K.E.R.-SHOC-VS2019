@@ -259,23 +259,99 @@ void initialize_bindings()
 		g_key_bindings[idx].m_action = &actions[idx];
 }
 
+
+const char* get_english_display_name(const char* key_name)
+{
+    // Quick lookup for common keys
+    if (!strcmp(key_name, "kESCAPE"))   return "Esc";
+    if (!strcmp(key_name, "kRETURN"))   return "Enter";
+    if (!strcmp(key_name, "kBACK"))     return "Backspace";
+    if (!strcmp(key_name, "kTAB"))      return "Tab";
+    if (!strcmp(key_name, "kSPACE"))    return "Space";
+    if (!strcmp(key_name, "kCAPITAL"))  return "Caps Lock";
+    if (!strcmp(key_name, "kLSHIFT"))   return "Left Shift";
+    if (!strcmp(key_name, "kRSHIFT"))   return "Right Shift";
+    if (!strcmp(key_name, "kLCONTROL")) return "Left Ctrl";
+    if (!strcmp(key_name, "kRCONTROL")) return "Right Ctrl";
+    if (!strcmp(key_name, "kLMENU"))    return "Left Alt";
+    if (!strcmp(key_name, "kRMENU"))    return "Right Alt";
+    if (!strcmp(key_name, "kLWIN"))     return "Left Win";
+    if (!strcmp(key_name, "kRWIN"))     return "Right Win";
+    if (!strcmp(key_name, "kAPPS"))     return "Apps";
+    if (!strcmp(key_name, "kNUMLOCK"))  return "Num Lock";
+    if (!strcmp(key_name, "kSCROLL"))   return "Scroll Lock";
+    if (!strcmp(key_name, "kPRIOR"))    return "Page Up";
+    if (!strcmp(key_name, "kNEXT"))     return "Page Down";
+    if (!strcmp(key_name, "kINSERT"))   return "Insert";
+    if (!strcmp(key_name, "kDELETE"))   return "Delete";
+    if (!strcmp(key_name, "kHOME"))     return "Home";
+    if (!strcmp(key_name, "kEND"))      return "End";
+    if (!strcmp(key_name, "kUP"))       return "Up";
+    if (!strcmp(key_name, "kDOWN"))     return "Down";
+    if (!strcmp(key_name, "kLEFT"))     return "Left";
+    if (!strcmp(key_name, "kRIGHT"))    return "Right";
+    if (!strcmp(key_name, "kPAUSE"))    return "Pause";
+    if (!strcmp(key_name, "kDIVIDE"))   return "/ (Divide)";
+    if (!strcmp(key_name, "kMULTIPLY")) return "*";
+    if (!strcmp(key_name, "kSUBTRACT")) return "- (Substruct)";
+    if (!strcmp(key_name, "kADD"))      return "+";
+    if (!strcmp(key_name, "kDECIMAL"))  return ". (Decimal)";
+    if (!strcmp(key_name, "kGRAVE"))    return "`";
+    if (!strcmp(key_name, "kMINUS"))    return "- (Minus)";
+    if (!strcmp(key_name, "kEQUALS"))   return "=";
+    if (!strcmp(key_name, "kLBRACKET")) return "[";
+    if (!strcmp(key_name, "kRBRACKET")) return "]";
+    if (!strcmp(key_name, "kBACKSLASH")) return "\\";
+    if (!strcmp(key_name, "kSEMICOLON")) return ";";
+    if (!strcmp(key_name, "kAPOSTROPHE")) return "'";
+    if (!strcmp(key_name, "kCOMMA"))    return ",";
+    if (!strcmp(key_name, "kPERIOD"))   return ". (Period)";
+    if (!strcmp(key_name, "kSLASH"))    return "/ (Slash)";
+	
+	if (!strcmp(key_name, "kNUMPAD7"))    return "Num 7";
+	if (!strcmp(key_name, "kNUMPAD8"))    return "Num 8";
+	if (!strcmp(key_name, "kNUMPAD9"))    return "Num 9";
+	if (!strcmp(key_name, "kNUMPAD4"))    return "Num 4";
+	if (!strcmp(key_name, "kNUMPAD5"))    return "Num 5";
+	if (!strcmp(key_name, "kNUMPAD6"))    return "Num 6";
+	if (!strcmp(key_name, "kNUMPAD1"))    return "Num 1";
+	if (!strcmp(key_name, "kNUMPAD2"))    return "Num 2";
+	if (!strcmp(key_name, "kNUMPAD3"))    return "Num 3";
+	if (!strcmp(key_name, "kNUMPAD0"))    return "Num 0";
+	if (!strcmp(key_name, "kNUMPADEQUALS"))    return "Num =";
+	if (!strcmp(key_name, "kNUMPADENTER"))    return "Num Enter";
+	if (!strcmp(key_name, "kNUMPADCOMMA"))    return "Num ,";
+
+
+    // Handle "mouseX" -> "Mouse X"
+    if (strncmp(key_name, "mouse", 5) == 0) {
+        static char buf[32];
+        int num = atoi(key_name + 5);
+        sprintf(buf, "Mouse %d", num);
+        return buf;
+    }
+
+    // For single‑letter/digit keys (kA, k1, etc.) just return the character
+    if (key_name[0] == 'k' && strlen(key_name) == 2)
+        return key_name + 1;
+
+    // For everything else (e.g., kNUMPAD7, kF1) strip the leading 'k'
+    if (key_name[0] == 'k' && key_name[1] != '\0')
+        return key_name + 1;
+
+    return key_name; // fallback
+}
+
+
 void remap_keys()
 {
-	int idx = 0;
-	string128 buff;
-	while (keyboards[idx].key_name)
-	{
-		buff[0] = 0;
-		_keyboard& kb = keyboards[idx];
-		bool res = pInput->get_dik_name(kb.dik, buff, 128);
-		if (res)
-			kb.key_local_name = buff;
-		else
-			kb.key_local_name = kb.key_name;
-
-		//.		Msg("[%s]-[%s]",kb.key_name, kb.key_local_name.c_str());
-		++idx;
-	}
+    int idx = 0;
+    while (keyboards[idx].key_name)
+    {
+        _keyboard& kb = keyboards[idx];
+        kb.key_local_name = get_english_display_name(kb.key_name);
+        ++idx;
+    }
 }
 
 LPCSTR id_to_action_name(int _id)
