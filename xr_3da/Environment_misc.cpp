@@ -292,18 +292,29 @@ void CEnvDescriptorMixer::lerp(CEnvironment*, CEnvDescriptor& A, CEnvDescriptor&
 	// wind
 	wind_velocity = fi * A.wind_velocity + f * B.wind_velocity;
 	wind_direction = fi * A.wind_direction + f * B.wind_direction;
+    
+    
+    // Apply multipliers to the raw config values before blending
+    Fvector ambA = A.ambient; ambA.mul(ps_env_amb_mult);
+    Fvector ambB = B.ambient; ambB.mul(ps_env_amb_mult);
+    Fvector sunA = A.sun_color; sunA.mul(ps_env_sun_mult);
+    Fvector sunB = B.sun_color; sunB.mul(ps_env_sun_mult);
+    Fvector4 hemiA = A.hemi_color; 
+    hemiA.x *= ps_env_hemi_mult; hemiA.y *= ps_env_hemi_mult; hemiA.z *= ps_env_hemi_mult;
+    Fvector4 hemiB = B.hemi_color;
+    hemiB.x *= ps_env_hemi_mult; hemiB.y *= ps_env_hemi_mult; hemiB.z *= ps_env_hemi_mult;
 
 	// colors
 	sky_color.lerp(A.sky_color, B.sky_color, f).add(M.sky_color).mul(_power);
-	ambient.lerp(A.ambient, B.ambient, f).add(M.ambient).mul(_power);
-	hemi_color.lerp(A.hemi_color, B.hemi_color, f);
-	hemi_color.x += M.hemi_color.x;
-	hemi_color.y += M.hemi_color.y;
-	hemi_color.z += M.hemi_color.z;
-	hemi_color.x *= _power;
-	hemi_color.y *= _power;
-	hemi_color.z *= _power;
-	sun_color.lerp(A.sun_color, B.sun_color, f);
+	ambient.lerp(ambA, ambB, f).add(M.ambient).mul(_power);
+    hemi_color.lerp(hemiA, hemiB, f);
+    hemi_color.x += M.hemi_color.x;
+    hemi_color.y += M.hemi_color.y;
+    hemi_color.z += M.hemi_color.z;
+    hemi_color.x *= _power;
+    hemi_color.y *= _power;
+    hemi_color.z *= _power;
+    sun_color.lerp(sunA, sunB, f);
 	sun_dir.lerp(A.sun_dir, B.sun_dir, f).normalize();
 	VERIFY2(sun_dir.y < 0, "Invalid sun direction settings while lerp");
 }
