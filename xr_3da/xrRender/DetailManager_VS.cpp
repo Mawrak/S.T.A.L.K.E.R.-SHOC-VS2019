@@ -136,16 +136,15 @@ void CDetailManager::hw_Render()
     
     // In hw_Render():
     // Use a wrapped time value for ALL calculations
-    static float wrappedTime = 0.0f;
-    wrappedTime += Device.fTimeDelta; // Increment by frame delta
-    if (wrappedTime > 10000.0f) wrappedTime -= 10000.0f; // Keep in range
+    static double wrappedTime = 0.0;  // No reset, no limit
+	wrappedTime += Device.fTimeDelta; // Grows forever
 
 	// Render-prepare
 	Fvector4 dir1, dir2;
 	// Use wrappedTime instead of Device.fTimeGlobal everywhere
-    float tm_rot1 = (PI_MUL_2 * wrappedTime / swing_current.rot1);
-    float tm_rot2 = (PI_MUL_2 * wrappedTime / swing_current.rot2);
-    float wavePhase = wrappedTime * swing_current.speed;
+    float tm_rot1 = static_cast<float>(fmod(wrappedTime * (2.0 * PI / swing_current.rot1), 2.0 * PI));
+    float tm_rot2 = static_cast<float>(fmod(wrappedTime * (2.0 * PI / swing_current.rot2), 2.0 * PI));
+    float wavePhase = static_cast<float>(fmod(wrappedTime * swing_current.speed, 2.0 * PI));
 	dir1.set(_sin(tm_rot1), 0, _cos(tm_rot1), 0).normalize().mul(swing_current.amp1);
 	dir2.set(_sin(tm_rot2), 0, _cos(tm_rot2), 0).normalize().mul(swing_current.amp2);
 
