@@ -23,10 +23,18 @@
 #include "D3DUtils.h"
 #include "xrCore.h"
 
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 ENGINE_API float psVisDistance = 1.f;
+
+
+ENGINE_API float ps_env_amb_mult   = 1.0f;
+ENGINE_API float ps_env_hemi_mult  = 1.0f;
+ENGINE_API float ps_env_sun_mult   = 1.0f;
+
+
 static const float MAX_NOISE_FREQ = 0.03f;
 
 //#define WEATHER_LOGGING
